@@ -12,7 +12,7 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         // Hide all panels except the play panel
-        ShowPanel(playPanel);
+        ShowPanel(mainPanel);
     }
 
     public void ShowMainPanel()

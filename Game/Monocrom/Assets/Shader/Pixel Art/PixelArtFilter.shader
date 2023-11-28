@@ -4,7 +4,6 @@ Shader "Hidden/PixelArtFilter" {
     }
 
     SubShader {
-
         Pass {
             CGPROGRAM
             #pragma vertex vp
@@ -12,20 +11,15 @@ Shader "Hidden/PixelArtFilter" {
 
             #include "UnityCG.cginc"
 
-            struct VertexData {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
             struct v2f {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vp(VertexData v) {
+            v2f vp(float4 vertex : POSITION, float2 uv : TEXCOORD0) {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.vertex = UnityObjectToClipPos(vertex);
+                o.uv = uv;
                 return o;
             }
 
@@ -34,7 +28,6 @@ Shader "Hidden/PixelArtFilter" {
 
             fixed4 fp(v2f i) : SV_Target {
                 float4 col = _MainTex.Sample(point_clamp_sampler, i.uv);
-
                 return col;
             }
             ENDCG
