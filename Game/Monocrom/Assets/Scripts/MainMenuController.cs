@@ -42,4 +42,10 @@ public class MainMenuController : MonoBehaviour
         extraPanel.SetActive(false);
         panelToActivate.SetActive(true);
     }
+
+    public void Sair()
+    {
+        // Quit the game
+        Application.Quit();
+    }
 }

@@ -63,4 +63,10 @@ public class GameManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
     }
 
+    public void LoadSceneAdditive(string sceneName)
+    {
+        
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+    }
+
 }
