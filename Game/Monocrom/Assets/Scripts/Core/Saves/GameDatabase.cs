@@ -1,11 +1,6 @@
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerProgress
-{
-    public int Level = 0;
-    public Colors Colors = Colors.WHITE;
-}
+
 
 public class GameDatabase : MonoBehaviour
 {
