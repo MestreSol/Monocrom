@@ -74,6 +74,7 @@ public class SaveSlotsController : MonoBehaviour
                 saveSlots[i].gameObject.GetComponent<Image>().color = color;
                 saveSlots[i].SaveName.color = color;
                 saveSlots[i].SaveTime.color = color;
+
             }
             else
             {

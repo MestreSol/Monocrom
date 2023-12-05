@@ -40,6 +40,7 @@ public class GameDatabase : MonoBehaviour
             string json = JsonUtility.ToJson(save);
             System.IO.File.WriteAllText(filePath, json);
             Debug.Log("Save Criado em: "+filePath);
+            GameManager.curSave = save;
             return save;
         }
 
@@ -56,6 +57,7 @@ public class GameDatabase : MonoBehaviour
             //Load Game info
             Player state = save.gameData.playerState;
             PlayerProgress progress = save.gameData.playerProgress;
+            GameManager.curSave = save;
             GameManager.instance.LoadScene(save.LastScene);
             return save;
         }

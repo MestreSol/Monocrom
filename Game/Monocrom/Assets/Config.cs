@@ -150,6 +150,7 @@ public class Config : MonoBehaviour
                 break;
         }
     }
+    
     public void AfterTipoJanela()
     {
         save.ModoDeJanela = (TiposDeJanela)(((int)save.ModoDeJanela - 1) % 3);
@@ -230,9 +231,11 @@ public class Config : MonoBehaviour
     public void Save()
     {
         System.IO.File.WriteAllText(Application.persistentDataPath + "/config.json", JsonUtility.ToJson(save));
+        GameManager.config = save;
     }
     public void Load()
     {
+        GameManager.config = save;
         audioMixer.SetFloat("MainVolume", save.MainVolume);
         audioMixer.SetFloat("InterfaceVolume", save.InterfaceVolume);
         audioMixer.SetFloat("MusicVolume", save.MusicVolume);

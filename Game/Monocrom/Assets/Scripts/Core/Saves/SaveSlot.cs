@@ -15,31 +15,31 @@ public class SaveSlot : MonoBehaviour
     public Animator anim;
     public int id;
     public void LoadCreateSave(GameObject obj)
-{
-    if (save != null)
     {
-        GameManager.instance.LoadScene(save.LastScene);
-    }
-    else
-    {
-        if (GameObject != null)
+        if (save != null)
         {
-            StartNewGame startNewGame = GameObject.GetComponent<StartNewGame>();
-            if (startNewGame != null)
-            {
-                obj.GetComponent<Button>().onClick.AddListener(delegate { startNewGame.NewSave(id); });
-            }
-            else
-            {
-                Debug.LogError("StartNewGame component not found on GameObject");
-            }
+            GameManager.instance.LoadScene(save.LastScene);
         }
         else
         {
-            Debug.LogError("GameObject is null");
+            if (GameObject != null)
+            {
+                StartNewGame startNewGame = GameObject.GetComponent<StartNewGame>();
+                if (startNewGame != null)
+                {
+                    obj.GetComponent<Button>().onClick.AddListener(delegate { startNewGame.NewSave(id); });
+                }
+                else
+                {
+                    Debug.LogError("StartNewGame component not found on GameObject");
+                }
+            }
+            else
+            {
+                Debug.LogError("GameObject is null");
+            }
         }
+        anim.SetInteger("SaveSlot", id);
+        anim.SetTrigger("GoTo");
     }
-    anim.SetInteger("SaveSlot", id);
-    anim.SetTrigger("GoTo");
-}
 }

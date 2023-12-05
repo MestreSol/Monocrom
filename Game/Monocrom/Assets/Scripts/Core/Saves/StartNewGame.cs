@@ -11,7 +11,6 @@ public class StartNewGame : MonoBehaviour
     {
         if (SaveName.text != "" && Titulo.text != "")
         {
-
             GameDatabase.CreateSave(id.ToString(), SaveName.text, Titulo.text);
             Debug.Log("Save Criado");
             GameManager.instance.LoadScene("StartGame");

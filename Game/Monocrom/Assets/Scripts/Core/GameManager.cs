@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get; private set; }
 
+    public static Save curSave { get; set; }
+
+    public static ConfigFromSave config { get; set; }
+
     private void Awake()
     {
         if (instance == null)
