@@ -1,10 +1,11 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Player : Entity
 {
     public Colors CurColor = Colors.WHITE;
-
+    public SpriteRenderer spriteRenderer;
     public int head = 0;
     public int hair = 0;
     public int body = 0;
