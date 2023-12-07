@@ -151,7 +151,7 @@ public class Config : MonoBehaviour
         }
     }
     
-    public void AfterTipoJanela()
+    public void PreviosTipoJanela()
     {
         save.ModoDeJanela = (TiposDeJanela)(((int)save.ModoDeJanela - 1) % 3);
         //ModoDeJanela.GetComponent<TMP_Text>().text = save.ModoDeJanela.ToString();

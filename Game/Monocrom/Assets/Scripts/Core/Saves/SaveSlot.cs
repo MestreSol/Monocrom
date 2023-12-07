@@ -9,6 +9,7 @@ public class SaveSlot : MonoBehaviour
     // A save slot is a game object that has a save slot controller script attached to it.
     public GameObject GameObject;
     public ParticleSystem ParticleSystem;
+    public ParticleSystem ParticleSystem2;
     public Save save;
     public TMP_Text SaveName;
     public TMP_Text SaveTime;
