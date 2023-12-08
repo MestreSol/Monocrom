@@ -49,15 +49,27 @@ public class PlayerController : MonoBehaviour
             Player.animator.SetBool("InGround", Player.inGround);
 
             if (!Mathf.Approximately(Player.Rigidbody2D.velocity.x, 0))
-            {
-                ResetStates();
-                Player.animator.SetBool("isRun", Mathf.RoundToInt(Player.Rigidbody2D.velocity.x) != 0);
-                Player.spriteRenderer.flipX = Mathf.RoundToInt(Player.Rigidbody2D.velocity.x) < 0;
-            }
-            else
-            {
-                Player.animator.SetBool("isRun", false);
-            }
+{
+    ResetStates();
+    Player.animator.SetBool("isRun", Mathf.RoundToInt(Player.Rigidbody2D.velocity.x) != 0);
+    if(Mathf.RoundToInt(Player.Rigidbody2D.velocity.x) != 0){
+    float direction = Mathf.Sign(Player.Rigidbody2D.velocity.x);
+    if (direction < 0)
+    {
+        gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+    if (direction > 0)
+    {
+        gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+    }
+}
+else
+{
+    Player.animator.SetBool("isRun", false);
+    // Adicione esta linha para definir a rotação para um valor padrão quando o jogador não está se movendo
+    gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+}
 
            
         }
@@ -74,7 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Debug.isDebugBuild)
         {
-            string playerInfo = $"Velocidade: {Player.Rigidbody2D.velocity}\nNo ch�o: {Player.inGround}";
+            string playerInfo = $"Velocidade: {Player.Rigidbody2D.velocity}\nNo ch�o: {Player.inGround}";
             GUI.Box(new Rect(10, 10, 200, 50), playerInfo);
         }
     }

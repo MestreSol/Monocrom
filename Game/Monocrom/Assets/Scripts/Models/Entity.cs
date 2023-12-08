@@ -6,6 +6,7 @@ using UnityEngine;
 public class Entity
 {
     public Rigidbody2D Rigidbody2D;
+    
     public GameObject GroundCheck;
     public GameObject WallCheck;
 

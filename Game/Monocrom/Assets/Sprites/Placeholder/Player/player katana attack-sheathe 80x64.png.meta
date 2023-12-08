@@ -103,7 +103,343 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 16
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffcb01473b302ef49b7a8dc3af8afdfe
+      internalID: -1802365601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 16
+        width: 54
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79b1f2b689ad1fd4780b27bee2b1c872
+      internalID: 2140749822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_2
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 16
+        width: 54
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4166a607ca6ac24189e17961dc0f1f8
+      internalID: -1361512547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_3
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 16
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 986ca3fab9b565a4695dc1c90d318511
+      internalID: 618856016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_4
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 16
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8bddd31dfc80d54cb7890a15355b0ac
+      internalID: 1426902440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_5
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 16
+        width: 57
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d3a42858c1d03f4aa00b5d65e6e151a
+      internalID: 329016556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_6
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 16
+        width: 50
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 779ee20e766802a46a80461b0ad94f44
+      internalID: 265450034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_7
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 16
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79b0517c12a5fce41bb8775a81296682
+      internalID: -12838385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_8
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 16
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d9b8a34757196046a49dc29f8e62e06
+      internalID: -2138208072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_9
+      rect:
+        serializedVersion: 2
+        x: 746
+        y: 16
+        width: 21
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9d05ec03d6762642aa5783410a3496b
+      internalID: 638397697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_10
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 16
+        width: 20
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd4a43c71cd40b4083bc36c77b054e4
+      internalID: 2119741742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_11
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 16
+        width: 20
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15ffb03d0d608154d972eb1625b72d2f
+      internalID: -1483841738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_12
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 16
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2925c34ef8ceed143b87305c950db1f0
+      internalID: -1887948493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_13
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 16
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2d6ef9a45b2a7343b4e405cf7bfa803
+      internalID: -463135389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_14
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 16
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c118de98c1a8bb041af87a58c990bfaa
+      internalID: -1744241727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana attack-sheathe 80x64_15
+      rect:
+        serializedVersion: 2
+        x: 1226
+        y: 16
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 959a06ed6a8e16e449bf111cf0962945
+      internalID: -1777097288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +450,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      player katana attack-sheathe 80x64_0: -1802365601
+      player katana attack-sheathe 80x64_1: 2140749822
+      player katana attack-sheathe 80x64_10: 2119741742
+      player katana attack-sheathe 80x64_11: -1483841738
+      player katana attack-sheathe 80x64_12: -1887948493
+      player katana attack-sheathe 80x64_13: -463135389
+      player katana attack-sheathe 80x64_14: -1744241727
+      player katana attack-sheathe 80x64_15: -1777097288
+      player katana attack-sheathe 80x64_2: -1361512547
+      player katana attack-sheathe 80x64_3: 618856016
+      player katana attack-sheathe 80x64_4: 1426902440
+      player katana attack-sheathe 80x64_5: 329016556
+      player katana attack-sheathe 80x64_6: 265450034
+      player katana attack-sheathe 80x64_7: -12838385
+      player katana attack-sheathe 80x64_8: -2138208072
+      player katana attack-sheathe 80x64_9: 638397697
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

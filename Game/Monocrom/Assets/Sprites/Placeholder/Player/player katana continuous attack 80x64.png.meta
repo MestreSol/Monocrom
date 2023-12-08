@@ -103,7 +103,196 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 16
+        width: 54
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83086c783ca9e78429c0c133792aab29
+      internalID: -168243458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_1
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 16
+        width: 54
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20ff09be84450904f943a28b96543ab7
+      internalID: 726140120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_2
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 16
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48979cc72f8feba45a751c34a52b08c2
+      internalID: -1413991691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_3
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 16
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e52d609bbb2ac1f4298532353f7b18c1
+      internalID: -2147316292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_4
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 16
+        width: 57
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ba8009d66c3b1a469f9ba070e607faa
+      internalID: 835436424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_5
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 16
+        width: 59
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4e4ab443f40e0b49a035b5542da20ed
+      internalID: -1616429850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_6
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 16
+        width: 19
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcf590a4bbfdf01458b97940222a995d
+      internalID: -1293515185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_7
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 16
+        width: 19
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f709f4ce6a7f604fbc423526152e26e
+      internalID: 1514151462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player katana continuous attack 80x64_8
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 16
+        width: 19
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 597517aaa5a661f4e9d367689d3e8b7a
+      internalID: 1917641412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +303,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      player katana continuous attack 80x64_0: -168243458
+      player katana continuous attack 80x64_1: 726140120
+      player katana continuous attack 80x64_2: -1413991691
+      player katana continuous attack 80x64_3: -2147316292
+      player katana continuous attack 80x64_4: 835436424
+      player katana continuous attack 80x64_5: -1616429850
+      player katana continuous attack 80x64_6: -1293515185
+      player katana continuous attack 80x64_7: 1514151462
+      player katana continuous attack 80x64_8: 1917641412
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
