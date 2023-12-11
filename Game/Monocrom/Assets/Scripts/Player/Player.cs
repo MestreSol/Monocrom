@@ -14,4 +14,27 @@ public class Player : Entity
 
     public float Mana = 0;
 
+    // Método para alterar a cor do jogador
+    public void ChangeColor(Colors newColor)
+    {
+        CurColor = newColor;
+    }
+
+    
+    // Método para alterar a aparência do jogador
+    public void ChangeAppearance(int newHead, int newHair, int newBody, int newLegs, int newAccessory, int newPreset)
+    {
+        head = newHead;
+        hair = newHair;
+        body = newBody;
+        legs = newLegs;
+        Accessory = newAccessory;
+        Preset = newPreset;
+    }
+
+    // Método para alterar a mana do jogador
+    public void ChangeMana(float newMana)
+    {
+        Mana = newMana;
+    }
 }

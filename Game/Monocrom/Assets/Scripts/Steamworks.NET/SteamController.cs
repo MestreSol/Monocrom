@@ -1,80 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Steamworks;
 
 public class SteamController : MonoBehaviour
 {
+    // Singleton para a classe SteamController
     public static SteamController Instance { get; private set; }
 
+    // Método Awake é chamado quando o script é inicializado
     private void Awake()
     {
+        // Se a instância for nula, esta instância se torna a instância Singleton
         if (Instance == null)
             Instance = this;
+        // Se já existir uma instância, destruímos este objeto
         else
             Destroy(gameObject);
     }
 
+    // Método para obter o ID do usuário Steam
     public string GetSteamID()
     {
-        return Steamworks.SteamUser.GetSteamID().ToString();
+        // Retorna o ID do usuário Steam como uma string
+        return SteamUser.GetSteamID().ToString();
     }
 
-
+    // Método para obter o nome do usuário Steam
     public string GetSteamName()
     {
-        return Steamworks.SteamFriends.GetPersonaName();
+        // Retorna o nome do usuário Steam
+        return SteamFriends.GetPersonaName();
     }
 
+    // Método para obter o idioma do jogo Steam
     public string GetSteamLanguage()
     {
-        return Steamworks.SteamApps.GetCurrentGameLanguage();
+        // Retorna o idioma atual do jogo
+        return SteamApps.GetCurrentGameLanguage();
     }
 
+    // Método para obter o caminho de instalação do jogo Steam
     public string GetSteamInstallPath()
     {
-        string steamInstallPath = "";
-        Steamworks.SteamApps.GetAppInstallDir(Steamworks.SteamUtils.GetAppID(), out steamInstallPath, 256);
+        // Obtém o caminho de instalação do jogo e retorna
+        SteamApps.GetAppInstallDir(SteamUtils.GetAppID(), out string steamInstallPath, 256);
         return steamInstallPath;
     }
 
-    public string GetSetamLanguageCode()
+    // Método para obter o código do idioma do jogo Steam
+    public string GetSteamLanguageCode()
     {
-        return Steamworks.SteamApps.GetCurrentGameLanguage();
-    }
-
-    public bool IsSteamRunning()
-    {
-        return Steamworks.SteamAPI.IsSteamRunning();
-    }
-
-    public bool IsSteamUserLoggedIn()
-    {
-        return Steamworks.SteamUser.BLoggedOn();
-    }
-
-    public void UnlockAchievement(string achievementName)
-    {
-        Steamworks.SteamUserStats.SetAchievement(achievementName);
-        Steamworks.SteamUserStats.StoreStats();
-    }
-
-    public void IncrementAchievement(string achievementName, int steps)
-    {
-        Steamworks.SteamUserStats.IndicateAchievementProgress(achievementName, (uint)steps, 100);
-        Steamworks.SteamUserStats.StoreStats();
-    }
-
-    public void ResetAllAchievements()
-    {
-        Steamworks.SteamUserStats.ResetAllStats(true);
-        Steamworks.SteamUserStats.StoreStats();
-    }
-
-    public bool IsAchievementUnlocked(string achievementName)
-    {
-        bool isUnlocked = false;
-        Steamworks.SteamUserStats.GetAchievement(achievementName, out isUnlocked);
-        return isUnlocked;
+        // Retorna o código do idioma atual do jogo
+        return SteamApps.GetCurrentGameLanguage();
     }
 }
-

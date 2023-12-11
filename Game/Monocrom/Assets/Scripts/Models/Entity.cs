@@ -9,7 +9,7 @@ public class Entity
     
     public GameObject GroundCheck;
     public GameObject WallCheck;
-
+    public float wallCheckDistance;
     public LayerMask wallLayer;
     public LayerMask groundLayer;
 
@@ -32,7 +32,15 @@ public class Entity
     public int jumpCount = 0;
 
     public bool inGround = false;
+    public void WallSlide()
+    {
+        // Ative a anima��o de deslizamento na parede
+        animator.SetBool("isWallSliding", true);
+        
+        WallSliderCommand wallSlide = new WallSliderCommand(this, Vector2.down * (JumpForce / 10));
+        wallSlide.Execute();
 
+    }
     public bool CanJump()
     {
         bool isground = Physics2D.OverlapCircle(GroundCheck.transform.position, 0.1f, groundLayer);
