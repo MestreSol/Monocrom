@@ -2228,7 +2228,7 @@ MonoBehaviour:
   Preset: 0
   Mana: 0
   jumpCountMax: 1
-  wallJumpingPower: {x: 3, y: 8}
+  wallJumpingPower: {x: 4, y: 8}
   rb: {fileID: 1671629976}
   groundCheck: {fileID: 353583247}
   groundLayer:

@@ -28,17 +28,19 @@ public class PlayerController : Player
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         inGround = IsGrounded();
-        if ((Input.GetButtonDown("Jump")) && jumpCount < jumpCountMax)
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, JumpForce);
-            jumpCount++;
+            Jump();
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-
+        else
+        {
+            animator.SetBool("isJump", false);
+        }
         WallSlide();
         WallJump();
 
@@ -47,12 +49,45 @@ public class PlayerController : Player
             Flip();
         }
     }
-
+    private void Land()
+    {
+        jumpCount = 0;
+        animator.SetBool("isJump", false);
+        animator.SetBool("isFall", false);
+        animator.SetBool("inGround", true);
+    }
+    private void Fall()
+    {
+        if(rb.velocity.y < 0f)
+        {
+            animator.SetBool("isFall", true);
+            animator.SetBool("isJump", false);
+        }
+        else
+        {
+            animator.SetBool("isFall", false);
+        }
+    }
+    private void Jump()
+    {
+        if (jumpCount < jumpCountMax)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, JumpForce);
+            jumpCount++;
+            animator.SetBool("isJump", true);
+            animator.SetBool("isFall", false);
+        }
+    }
+    private void Move()
+    {
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        animator.SetBool("isRun", horizontal != 0f);
+    }
     private void FixedUpdate()
     {
         if (!isWallJumping)
         {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            Move();
         }
     }
 
@@ -61,13 +96,14 @@ public class PlayerController : Player
         bool isground = Physics2D.OverlapCircle(groundCheck.transform.position, 0.2f, groundLayer);
         if (isground)
         {
-            jumpCount = 0;
+            Land();
         }
         return isground;
     }
 
     private bool IsWalled()
     {
+
         return Physics2D.OverlapCircle(wallCheck.transform.position, 0.2f, wallLayer);
     }
 
@@ -82,6 +118,8 @@ public class PlayerController : Player
         {
             isWallSliding = false;
         }
+        animator.SetBool("isWallSliding", isWallSliding);
+
     }
 
     private void WallJump()
@@ -112,7 +150,7 @@ public class PlayerController : Player
                 localScale.x *= -1f;
                 transform.localScale = localScale;
             }
-
+            animator.SetBool("isJump", true);
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
     }
@@ -141,7 +179,7 @@ public class PlayerController : Player
                       "wallJumpingCounter: " + wallJumpingCounter + "\n" +
                       "isFacingRight: " + isFacingRight + "\n" +
                       "horizontal: " + horizontal + "\n" +
-                      "rb.velocity: " + rb.velocity + "\n"+
+                      "rb.velocity: " + rb.velocity + "\n" +
                       "Wall Count: " + jumpCount;
         // Draw in screen
         GUI.Label(new Rect(10, 10, 500, 500), text);
