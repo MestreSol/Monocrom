@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,31 +24,167 @@ public class PlayerController : Player
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private GameObject wallCheck;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private GameObject attackCheck;
 
+    private List<string> comboSequence = new List<string>();
+    private float comboTimer = 0f;
+    private float comboMaxTime = 2f;
+    private float maxCombo = 10f;
+    private float attackCooldown = 0f;
+    private float attackCooldownTime = 0.1f;
+    private void Awake(){
+        Weapon weapon = new Weapon("Sword", 10, 1, 1);
+        equipedWeapon = weapon;
+    }
     private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        inGround = IsGrounded();
-        if (Input.GetButtonDown("Jump"))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if(IsWalled())
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            WallSlide();
+            WallJump();
         }
         else
         {
-            animator.SetBool("isJump", false);
+            isWallSliding = false;
+            animator.SetBool("isWallSliding", isWallSliding);
         }
-        WallSlide();
-        WallJump();
 
-        if (!isWallJumping)
+        UpdateComboTimer();
+        UpdateAttackCooldown();
+        ProcessAttackInput();
+        
+
+    }
+    private void UpdateComboTimer()
+    {
+        if (comboSequence.Count > 0)
         {
-            Flip();
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0f)
+            {
+                ResetCombo();
+            }
         }
+    }
+    private void UpdateAttackCooldown()
+    {
+        if (attackCooldown > 0f)
+        {
+            attackCooldown -= Time.deltaTime;
+        }
+    }
+
+    private void ProcessAttackInput()
+    {
+        if (attackCooldown <= 0f)
+        {
+            CheckAndAddCombo(KeyCode.I, "I");
+            CheckAndAddCombo(KeyCode.O, "O");
+            CheckAndAddCombo(KeyCode.P, "P");
+            CheckAndAddCombo(KeyCode.J, "J");
+        }
+    }
+    private void CheckAndAddCombo(KeyCode key, string combo)
+    {
+        if (Input.GetKeyDown(key))
+        {
+            AddCombo(combo);
+            attackCooldown = attackCooldownTime;
+
+        }
+    }
+    
+    public void AddCombo(string combo)
+    {
+
+        comboSequence.Add(combo);
+        if (comboSequence.Count > maxCombo)
+        {
+            ResetCombo();
+            return;
+        }
+        comboTimer = comboMaxTime;
+
+        string lastCombo = comboSequence[comboSequence.Count - 1];
+        string beforeCombo;
+        try
+
+        {
+            beforeCombo = comboSequence[comboSequence.Count - 2];
+        }
+        catch (Exception e)
+        {
+            beforeCombo = "";
+        }
+        float damage = 0f;
+        switch (lastCombo)
+        {
+            case "I":
+                spriteRenderer.color -= new Color(0f, 0.1f, 0.1f, 0f);
+                spriteRenderer.color += new Color(0.1f, 0f, 0f, 0f);
+                animator.SetInteger("AttackType", 1);
+                
+                break;
+            case "O":
+                spriteRenderer.color -= new Color(0.1f, 0f, 0.1f, 0f);
+                spriteRenderer.color += new Color(0f, 0.1f, 0f, 0f);
+                animator.SetInteger("AttackType", 2);
+                break;
+            case "P":
+                spriteRenderer.color -= new Color(0.1f, 0.1f, 0f, 0f);
+                spriteRenderer.color += new Color(0f, 0f, 0.1f, 0f);
+                animator.SetInteger("AttackType", 3);
+                break;
+            case "J":
+                spriteRenderer.color -= new Color(0.1f, 0.1f, 0.1f, 0f);
+                spriteRenderer.color += new Color(0.1f, 0.1f, 0.1f, 0f);
+                animator.SetInteger("AttackType", 4);
+                break;
+        }
+
+        damage = (Forca * (Sorte/equipedWeapon.CritChance)) + equipedWeapon.Damage+1;
+        Debug.Log(damage);
+        MakeDamage(damage);
+        if (comboSequence.Count == 10)
+        {
+            ResetCombo();
+            return;
+        }
+        animator.SetInteger("AttackSequence", comboSequence.Count);
+        animator.SetTrigger("Attack");
+        Debug.Log(lastCombo);
+        Debug.Log(beforeCombo);
+    }
+    private void ResetCombo()
+    {
+        comboSequence.Clear();
+        comboTimer = 0f;
+        animator.SetInteger("AttackSequence", 0);
+        animator.SetInteger("AttackType", 0);
+        switch (CurColor)
+        {
+            case Colors.WHITE:
+                spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+                break;
+            case Colors.RED:
+                spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+                break;
+            case Colors.BLUE:
+                spriteRenderer.color = new Color(0f, 0f, 1f, 1f);
+                break;
+            case Colors.YELLOW:
+                spriteRenderer.color = new Color(1f, 1f, 0f, 1f);
+                break;
+            case Colors.BLACK:
+                spriteRenderer.color = new Color(0f, 0f, 0f, 1f);
+                break;
+        }
+
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
     private void Land()
     {
@@ -58,7 +195,7 @@ public class PlayerController : Player
     }
     private void Fall()
     {
-        if(rb.velocity.y < 0f)
+        if (rb.velocity.y < 0f)
         {
             animator.SetBool("isFall", true);
             animator.SetBool("isJump", false);
@@ -80,6 +217,8 @@ public class PlayerController : Player
     }
     private void Move()
     {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        Flip();
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         animator.SetBool("isRun", horizontal != 0f);
     }
@@ -168,6 +307,16 @@ public class PlayerController : Player
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
+        }
+    }
+    private void MakeDamage(float damage){
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.transform.position, 0.5f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.GetComponent<Enemy>())
+            {
+                collider.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            }
         }
     }
     private void OnGUI()

@@ -14,4 +14,7 @@ public class Player : Entity
 
     public float Mana = 0;
 
+    public Weapon equipedWeapon;
+
+
 }

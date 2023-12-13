@@ -33,4 +33,15 @@ public class Entity : MonoBehaviour
     public bool isFacingRight = true;
     public bool isWallJumping = false;
     public bool isJumping = false;
+
+    public void TakeDamage(float damage){
+        Life -= damage;
+        if(Life <= 0){
+            Die();
+        }
+    }
+    private void Die(){
+        Destroy(gameObject);
+    }
+
 }
