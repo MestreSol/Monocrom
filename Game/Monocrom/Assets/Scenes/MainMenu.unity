@@ -4311,7 +4311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 260001642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: ShowMainPanel
         m_Mode: 1
@@ -4704,9 +4704,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 260001640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5d9436b267b96045bef24a27addb86b, type: 3}
+  m_Script: {fileID: 11500000, guid: 24f4ad8bf821b0f488fe6b874e6c6206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PanelInicial: {fileID: 262354422}
+  Jogar: {fileID: 1666549466}
+  Configurar: {fileID: 1571589398}
+  Extras: {fileID: 1580527194}
 --- !u!1 &262354422
 GameObject:
   m_ObjectHideFlags: 0
@@ -4725,7 +4729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &262354423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9654,7 +9658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -521.9998, y: 152}
+  m_AnchoredPosition: {x: -521.99976, y: 152}
   m_SizeDelta: {x: -1543.4999, y: -977.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583203166
@@ -9702,12 +9706,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260001642}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: ShowConfigPanel
-        m_Mode: 1
+        m_TargetAssemblyTypeName: UI_MainMenuController, Assembly-CSharp
+        m_MethodName: ShowPanel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1571589398}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13506,7 +13510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelArtFilter: {fileID: 4800000, guid: 7b90577204ab9d84eb6e9e0daef85674, type: 3}
-  downSamples: 0
+  downSamples: 1
 --- !u!1 &932094584
 GameObject:
   m_ObjectHideFlags: 0
@@ -13867,7 +13871,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -522.0098, y: 270.96}
+  m_AnchoredPosition: {x: -522.00977, y: 270.96}
   m_SizeDelta: {x: -1543.5299, y: -984.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966092287
@@ -13915,12 +13919,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260001642}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: ShowPlayPanel
-        m_Mode: 1
+        m_TargetAssemblyTypeName: UI_MainMenuController, Assembly-CSharp
+        m_MethodName: ShowPanel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1666549466}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14738,7 +14742,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -531.9997, y: -426}
+  m_AnchoredPosition: {x: -531.99976, y: -426}
   m_SizeDelta: {x: -1543.4999, y: -913.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1061389505
@@ -14786,7 +14790,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260001642}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI_MainMenuController, Assembly-CSharp
         m_MethodName: Sair
         m_Mode: 1
         m_Arguments:
@@ -23949,7 +23953,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 260001642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: Sair
         m_Mode: 1
@@ -24810,8 +24814,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -698.4001, y: -472.27002}
-  m_SizeDelta: {x: -1396.8, y: -944.53}
+  m_AnchoredPosition: {x: -698.4001, y: -421.21}
+  m_SizeDelta: {x: -1396.8, y: -842.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1445949811
 MonoBehaviour:
@@ -24857,7 +24861,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 260001642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: ShowMainPanel
         m_Mode: 1
@@ -25252,7 +25256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -523.5599, y: 352.03998}
+  m_AnchoredPosition: {x: -523.5598, y: 352.03998}
   m_SizeDelta: {x: 484.84, y: 130.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1462645954
@@ -27641,7 +27645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1666549467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37055,7 +37059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -521.9998, y: 31.900024}
+  m_AnchoredPosition: {x: -521.99976, y: 31.900024}
   m_SizeDelta: {x: -1543.4999, y: -983.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2023275419
@@ -37103,12 +37107,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260001642}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: ShowExtraPanel
-        m_Mode: 1
+        m_TargetAssemblyTypeName: UI_MainMenuController, Assembly-CSharp
+        m_MethodName: ShowPanel
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1580527194}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
