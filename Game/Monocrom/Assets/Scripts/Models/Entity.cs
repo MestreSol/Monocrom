@@ -1,22 +1,50 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum Idiomas
+{
+    Common,
+    Dwarvish,
+    Elvish,
+    Giant,
+    Gnomish,
+    Goblin,
+    Halfling,
+    Orc,
+    Abyssal,
+    Celestial,
+    Draconic,
+    Deep_Speech,
+    Invernal,
+    Primordial,
+    Sylvan,
+    Undercommon
+}
 
 [System.Serializable]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 public class Entity : MonoBehaviour
 {
+    [Header("Unity Objects")]
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
+    [Header("Variables")]
     public float wallCheckDistance;
     public float Speed;
+    public bool CanFlying;
+    public float FlySpeed;
     public float JumpForce;
     public float wallJumpingDuration = 0.1f;
 
-    public float MaxLife;
-    public float Life = 0;
+    public float Armor;
+    public List<Idiomas> idiomas;
 
     [Header("Player Attributes")]
+    public float Life = 0;
+    public float MaxLife;
+    
     public int Forca = 0;
     public int Destresa = 0;
     public int Sorte = 0;
