@@ -7,11 +7,13 @@ public enum GameState
     Menu,
     Playing,
     Paused,
-    GameOver
+    GameOver,
+    Dialogue
 }
 public class GameManager : MonoBehaviour
 {
-    public static GameState curState { get; set; } = GameState.Menu;
+    
+    [SerializeField]public GameState curState { get; set; } = GameState.Playing;
 
     public static GameManager instance { get; private set; }
 
@@ -56,7 +58,9 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-
+    public void EntreInDialgue(){
+        curState = GameState.Dialogue;
+    }
     public void LoadScene(string sceneName)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);

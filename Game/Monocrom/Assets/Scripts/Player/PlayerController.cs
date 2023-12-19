@@ -1,48 +1,61 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
-
+//OBS: Necessario veriricar Pary antes de aplicar o dano
 public class PlayerController : Player
 {
-    private float horizontal;
-    private float speed = 5f;
-    private float jumpForce = 5f;
+    private float _horizontal;
+    private float _speed = 5f;
+    private float _jumpForce = 5f;
 
-    private float wallSlidingSpeed = 0.75f;
+    private float _wallSlidingSpeed = 0.75f;
 
-    private float walljumpingDirection;
-    private float wallJumpingTime = 0.5f;
-    private float wallJumpingCounter;
+    private float _walljumpingDirection;
+    private float _wallJumpingTime = 0.5f;
+    private float _wallJumpingCounter;
 
-    [SerializeField] private int jumpCountMax = 2;
+    [SerializeField] private int _jumpCountMax = 2;
 
-    [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+    [SerializeField] private Vector2 _wallJumpingPower = new Vector2(8f, 16f);
 
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private GameObject groundCheck;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private GameObject wallCheck;
-    [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private GameObject attackCheck;
+    [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private GameObject _groundCheck;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private GameObject _wallCheck;
+    [SerializeField] private LayerMask _wallLayer;
+    [SerializeField] private GameObject _attackCheck;
+    public InvetoryController inventory;
 
-    private List<string> comboSequence = new List<string>();
-    private float comboTimer = 0f;
-    private float comboMaxTime = 2f;
-    private float maxCombo = 10f;
-    private float attackCooldown = 0f;
-    private float attackCooldownTime = 0.1f;
-    private void Awake(){
+    private List<string> _comboSequence = new List<string>();
+    private float _comboTimer = 0f;
+    private float _comboMaxTime = 2f;
+    private float _maxCombo = 10f;
+    private float _attackCooldown = 0f;
+    [SerializeField] private float _attackCooldownTime = 0.1f;
+    [SerializeField] private TMP_Text _interactivePoint;
+    public bool IsDashing = false;
+    public bool cooldownDash = false;
+    public float dashCooldown = 0.5f;
+    public float dashSpeed = 10f;
+
+    private float _attackSpeedDump = 0f;
+    private void Awake()
+    {
         Weapon weapon = new Weapon("Sword", 10, 1, 1);
         equipedWeapon = weapon;
+        _attackSpeedDump = _attackCooldown;
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(GameManager.instance.curState == GameState.Playing){
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-        if(IsWalled())
+        if (IsWalled())
         {
             WallSlide();
             WallJump();
@@ -56,15 +69,27 @@ public class PlayerController : Player
         UpdateComboTimer();
         UpdateAttackCooldown();
         ProcessAttackInput();
-        
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !cooldownDash)
+            Dash();
+        }
+
+    }
+    public void ShowMessage(string Message)
+    {
+        _interactivePoint.text = Message;
+        _interactivePoint.enabled = true;
+    }
+    public void HideMessage()
+    {
+        _interactivePoint.enabled = false;
     }
     private void UpdateComboTimer()
     {
-        if (comboSequence.Count > 0)
+        if (_comboSequence.Count > 0)
         {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0f)
+            _comboTimer -= Time.deltaTime;
+            if (_comboTimer <= 0f)
             {
                 ResetCombo();
             }
@@ -72,15 +97,15 @@ public class PlayerController : Player
     }
     private void UpdateAttackCooldown()
     {
-        if (attackCooldown > 0f)
+        if (_attackCooldown > 0f)
         {
-            attackCooldown -= Time.deltaTime;
+            _attackCooldown -= Time.deltaTime;
         }
     }
 
     private void ProcessAttackInput()
     {
-        if (attackCooldown <= 0f)
+        if (_attackCooldown <= 0f)
         {
             CheckAndAddCombo(KeyCode.I, "I");
             CheckAndAddCombo(KeyCode.O, "O");
@@ -93,51 +118,68 @@ public class PlayerController : Player
         if (Input.GetKeyDown(key))
         {
             AddCombo(combo);
-            attackCooldown = attackCooldownTime;
+            _attackCooldown = _attackCooldownTime;
 
         }
     }
-    
+
     public void AddCombo(string combo)
     {
 
-        comboSequence.Add(combo);
-        if (comboSequence.Count > maxCombo)
+        _comboSequence.Add(combo);
+        if (_comboSequence.Count > _maxCombo)
         {
             ResetCombo();
             return;
         }
-        comboTimer = comboMaxTime;
+        _comboTimer = _comboMaxTime;
 
-        string lastCombo = comboSequence[comboSequence.Count - 1];
+        string lastCombo = _comboSequence[_comboSequence.Count - 1];
         string beforeCombo;
         try
 
         {
-            beforeCombo = comboSequence[comboSequence.Count - 2];
+            beforeCombo = _comboSequence[_comboSequence.Count - 2];
         }
         catch (Exception e)
         {
             beforeCombo = "";
         }
+        
         float damage = 0f;
+        float DeltaS = 0;
+        
         switch (lastCombo)
         {
+            //I = Vermelho = Forte
             case "I":
                 spriteRenderer.color -= new Color(0f, 0.1f, 0.1f, 0f);
                 spriteRenderer.color += new Color(0.1f, 0f, 0f, 0f);
                 animator.SetInteger("AttackType", 1);
-                
+                DeltaS = ((Sorte+equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100)/100)) / 100;
+                if(DeltaS > 50) {
+                    damage = (Forca * (Sorte / DeltaS * 2)) + equipedWeapon.Damage + 1;
+                } else {
+                    damage = (Forca) + equipedWeapon.Damage + 1;
+                }
+
                 break;
+            //O = Verde = Rapido
             case "O":
                 spriteRenderer.color -= new Color(0.1f, 0f, 0.1f, 0f);
                 spriteRenderer.color += new Color(0f, 0.1f, 0f, 0f);
                 animator.SetInteger("AttackType", 2);
+                damage = (Forca * 0.5f) + equipedWeapon.Damage + 1;
+                _attackCooldown = _attackCooldownTime - (Destresa - inventory.Peso);
                 break;
+
+            //P = Azul = Magico
             case "P":
                 spriteRenderer.color -= new Color(0.1f, 0.1f, 0f, 0f);
                 spriteRenderer.color += new Color(0f, 0f, 0.1f, 0f);
                 animator.SetInteger("AttackType", 3);
+                DeltaS = ((Sorte + equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
+                damage = (Energia * (Sorte / DeltaS));
                 break;
             case "J":
                 spriteRenderer.color -= new Color(0.1f, 0.1f, 0.1f, 0f);
@@ -146,23 +188,22 @@ public class PlayerController : Player
                 break;
         }
 
-        damage = (Forca * (Sorte/equipedWeapon.CritChance)) + equipedWeapon.Damage+1;
         Debug.Log(damage);
         MakeDamage(damage);
-        if (comboSequence.Count == 10)
+        if (_comboSequence.Count == 10)
         {
             ResetCombo();
             return;
         }
-        animator.SetInteger("AttackSequence", comboSequence.Count);
+        animator.SetInteger("AttackSequence", _comboSequence.Count);
         animator.SetTrigger("Attack");
         Debug.Log(lastCombo);
         Debug.Log(beforeCombo);
     }
     private void ResetCombo()
     {
-        comboSequence.Clear();
-        comboTimer = 0f;
+        _comboSequence.Clear();
+        _comboTimer = 0f;
         animator.SetInteger("AttackSequence", 0);
         animator.SetInteger("AttackType", 0);
         switch (CurColor)
@@ -195,7 +236,7 @@ public class PlayerController : Player
     }
     private void Fall()
     {
-        if (rb.velocity.y < 0f)
+        if (_rb.velocity.y < 0f)
         {
             animator.SetBool("isFall", true);
             animator.SetBool("isJump", false);
@@ -207,9 +248,9 @@ public class PlayerController : Player
     }
     private void Jump()
     {
-        if (jumpCount < jumpCountMax)
+        if (jumpCount < _jumpCountMax)
         {
-            rb.velocity = new Vector2(rb.velocity.x, JumpForce);
+            _rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
             jumpCount++;
             animator.SetBool("isJump", true);
             animator.SetBool("isFall", false);
@@ -217,10 +258,10 @@ public class PlayerController : Player
     }
     private void Move()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        _horizontal = Input.GetAxisRaw("Horizontal");
         Flip();
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-        animator.SetBool("isRun", horizontal != 0f);
+        _rb.velocity = new Vector2(_horizontal * _speed, _rb.velocity.y);
+        animator.SetBool("isRun", _horizontal != 0f);
     }
     private void FixedUpdate()
     {
@@ -232,7 +273,7 @@ public class PlayerController : Player
 
     private bool IsGrounded()
     {
-        bool isground = Physics2D.OverlapCircle(groundCheck.transform.position, 0.2f, groundLayer);
+        bool isground = Physics2D.OverlapCircle(_groundCheck.transform.position, 0.2f, _groundLayer);
         if (isground)
         {
             Land();
@@ -243,15 +284,15 @@ public class PlayerController : Player
     private bool IsWalled()
     {
 
-        return Physics2D.OverlapCircle(wallCheck.transform.position, 0.2f, wallLayer);
+        return Physics2D.OverlapCircle(_wallCheck.transform.position, 0.2f, _wallLayer);
     }
 
     private void WallSlide()
     {
-        if (IsWalled() && !IsGrounded() && horizontal != 0f)
+        if (IsWalled() && !IsGrounded() && _horizontal != 0f)
         {
             isWallSliding = true;
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -_wallSlidingSpeed, float.MaxValue));
         }
         else
         {
@@ -266,23 +307,23 @@ public class PlayerController : Player
         if (isWallSliding)
         {
             isWallJumping = false;
-            walljumpingDirection = -transform.localScale.x;
-            wallJumpingCounter = wallJumpingTime;
+            _walljumpingDirection = -transform.localScale.x;
+            _wallJumpingCounter = _wallJumpingTime;
 
             CancelInvoke(nameof(StopWallJumping));
         }
         else
         {
-            wallJumpingCounter -= Time.deltaTime;
+            _wallJumpingCounter -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f)
+        if (Input.GetButtonDown("Jump") && _wallJumpingCounter > 0f)
         {
             isWallJumping = true;
-            rb.velocity = new Vector2(walljumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
+            _rb.velocity = new Vector2(_walljumpingDirection * _wallJumpingPower.x, _wallJumpingPower.y);
+            _wallJumpingCounter = 0f;
 
-            if (transform.localScale.x != walljumpingDirection)
+            if (transform.localScale.x != _walljumpingDirection)
             {
                 isFacingRight = !isFacingRight;
                 Vector3 localScale = transform.localScale;
@@ -301,7 +342,7 @@ public class PlayerController : Player
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        if (isFacingRight && _horizontal < 0f || !isFacingRight && _horizontal > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -309,8 +350,20 @@ public class PlayerController : Player
             transform.localScale = localScale;
         }
     }
-    private void MakeDamage(float damage){
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.transform.position, 0.5f);
+    private void Dash()
+    {
+
+        cooldownDash = true;
+        Invoke(nameof(StopDash), dashCooldown);
+        _rb.AddForce(new Vector2(_rb.velocity.x * dashSpeed, _rb.velocity.y));
+    }
+    private void StopDash()
+    {
+        cooldownDash = false;
+    }
+    private void MakeDamage(float damage)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.transform.position, 0.5f);
         foreach (Collider2D collider in colliders)
         {
             if (collider.GetComponent<Enemy>())
@@ -325,10 +378,10 @@ public class PlayerController : Player
                       "isWalled: " + IsWalled() + "\n" +
                       "isWallSliding: " + isWallSliding + "\n" +
                       "isWallJumping: " + isWallJumping + "\n" +
-                      "wallJumpingCounter: " + wallJumpingCounter + "\n" +
+                      "wallJumpingCounter: " + _wallJumpingCounter + "\n" +
                       "isFacingRight: " + isFacingRight + "\n" +
-                      "horizontal: " + horizontal + "\n" +
-                      "rb.velocity: " + rb.velocity + "\n" +
+                      "horizontal: " + _horizontal + "\n" +
+                      "rb.velocity: " + _rb.velocity + "\n" +
                       "Wall Count: " + jumpCount;
         // Draw in screen
         GUI.Label(new Rect(10, 10, 500, 500), text);
