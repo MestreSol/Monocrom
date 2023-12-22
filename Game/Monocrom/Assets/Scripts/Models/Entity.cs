@@ -32,27 +32,28 @@ public class Entity : MonoBehaviour
 
     [Header("Variables")]
     public float wallCheckDistance;
-    public float Speed;
-    public bool CanFlying;
-    public float FlySpeed;
-    public float JumpForce;
+    public float speed;
+    public float flySpeed;
+    public float jumpForce;
     public float wallJumpingDuration = 0.1f;
 
-    public float Armor;
+    public bool canFlying;
+
+    public float armor;
     public List<Idiomas> idiomas;
 
     [Header("Player Attributes")]
-    public float Life = 0;
-    public float MaxLife;
+    public float life = 0;
+    public float maxLife;
     
-    public int Forca = 0;
-    public int Destresa = 0;
-    public int Sorte = 0;
-    public int Persepcao = 0;
-    public int Constituicao = 0;
-    public int Inteligencia = 0;
-    public int Carisma = 0;
-    public int Energia = 0;
+    public int forca = 0;
+    public int destresa = 0;
+    public int sorte = 0;
+    public int persepcao = 0;
+    public int constituicao = 0;
+    public int inteligencia = 0;
+    public int carisma = 0;
+    public int energia = 0;
     public int jumpCount = 0;
 
     [Header("Player Status")]
@@ -63,8 +64,9 @@ public class Entity : MonoBehaviour
     public bool isJumping = false;
 
     public void TakeDamage(float damage){
-        Life -= damage;
-        if(Life <= 0){
+        life -= damage;
+        animator.SetTrigger("TakeDamage");
+        if(life <= 0){
             Die();
         }
     }

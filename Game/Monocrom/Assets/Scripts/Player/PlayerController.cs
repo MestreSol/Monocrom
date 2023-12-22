@@ -40,7 +40,6 @@ public class PlayerController : Player
     public bool cooldownDash = false;
     public float dashCooldown = 0.5f;
     public float dashSpeed = 10f;
-
     private float _attackSpeedDump = 0f;
     private void Awake()
     {
@@ -113,6 +112,8 @@ public class PlayerController : Player
             CheckAndAddCombo(KeyCode.J, "J");
         }
     }
+
+    
     private void CheckAndAddCombo(KeyCode key, string combo)
     {
         if (Input.GetKeyDown(key))
@@ -156,11 +157,11 @@ public class PlayerController : Player
                 spriteRenderer.color -= new Color(0f, 0.1f, 0.1f, 0f);
                 spriteRenderer.color += new Color(0.1f, 0f, 0f, 0f);
                 animator.SetInteger("AttackType", 1);
-                DeltaS = ((Sorte+equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100)/100)) / 100;
+                DeltaS = ((sorte+equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100)/100)) / 100;
                 if(DeltaS > 50) {
-                    damage = (Forca * (Sorte / DeltaS * 2)) + equipedWeapon.Damage + 1;
+                    damage = (forca * (sorte / DeltaS * 2)) + equipedWeapon.Damage + 1;
                 } else {
-                    damage = (Forca) + equipedWeapon.Damage + 1;
+                    damage = (forca) + equipedWeapon.Damage + 1;
                 }
 
                 break;
@@ -169,8 +170,8 @@ public class PlayerController : Player
                 spriteRenderer.color -= new Color(0.1f, 0f, 0.1f, 0f);
                 spriteRenderer.color += new Color(0f, 0.1f, 0f, 0f);
                 animator.SetInteger("AttackType", 2);
-                damage = (Forca * 0.5f) + equipedWeapon.Damage + 1;
-                _attackCooldown = _attackCooldownTime - (Destresa - inventory.Peso);
+                damage = (forca * 0.5f) + equipedWeapon.Damage + 1;
+                _attackCooldown = _attackCooldownTime - (destresa - inventory.Peso);
                 break;
 
             //P = Azul = Magico
@@ -178,8 +179,8 @@ public class PlayerController : Player
                 spriteRenderer.color -= new Color(0.1f, 0.1f, 0f, 0f);
                 spriteRenderer.color += new Color(0f, 0f, 0.1f, 0f);
                 animator.SetInteger("AttackType", 3);
-                DeltaS = ((Sorte + equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
-                damage = (Energia * (Sorte / DeltaS));
+                DeltaS = ((sorte + equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
+                damage = (energia * (sorte / DeltaS));
                 break;
             case "J":
                 spriteRenderer.color -= new Color(0.1f, 0.1f, 0.1f, 0f);
@@ -224,7 +225,7 @@ public class PlayerController : Player
                 spriteRenderer.color = new Color(0f, 0f, 0f, 1f);
                 break;
         }
-
+        _attackCooldown = _attackSpeedDump;
         spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
     private void Land()
@@ -250,7 +251,7 @@ public class PlayerController : Player
     {
         if (jumpCount < _jumpCountMax)
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, JumpForce);
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             jumpCount++;
             animator.SetBool("isJump", true);
             animator.SetBool("isFall", false);

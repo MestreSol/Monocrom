@@ -1,3 +1,4 @@
+using Febucci.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue[] Sequence;
     public List<DialogueOptions> Options;
     private Queue<string> sentences;
+    private GameObject OptionsArea;
 
     // Singleton instance
     public static DialogueManager Instance { get; private set; }
@@ -84,14 +86,14 @@ public class DialogueManager : MonoBehaviour
 
         string sentence = sentences.Dequeue();
         dialogueText.text = sentence;
-
+        dialogueText.GetComponent<TypewriterByCharacter>().StartShowingText();
     }
     void ShowOptions(){
         if(Options.Count > 0){
-            foreach (var option in Options)
-            {
-                // option.Action.Invoke();
-            }
+            DialogueBox.SetActive(false);
+            OptionsArea = Instantiate(Resources.Load("Prefabs/Dialogue/OptionsArea") as GameObject, GameObject.Find("Canvas").transform);
+            OptionsArea.GetComponent<OptionsController>().ShowOptions(Options);
+            
         }
     }
     void EndDialogue()
