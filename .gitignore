@@ -12,7 +12,13 @@ Game/Monocrom/[Bb]uild/
 Game/Monocrom/[Bb]uilds/
 Game/Monocrom/[Ll]ogs/
 Game/Monocrom/[Uu]ser[Ss]ettings/
-
+Game/XK210/[Ll]ibrary/
+Game/XK210/[Tt]emp/
+Game/XK210/[Oo]bj/
+Game/XK210/[Bb]uild/
+Game/XK210/[Bb]uilds/
+Game/XK210/[Ll]ogs/
+Game/XK210/[Uu]ser[Ss]ettings/
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
