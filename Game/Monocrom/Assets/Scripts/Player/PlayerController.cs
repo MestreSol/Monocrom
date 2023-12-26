@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 //OBS: Necessario veriricar Pary antes de aplicar o dano
 public class PlayerController : Player

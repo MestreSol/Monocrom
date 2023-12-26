@@ -38,3 +38,20 @@ public enum Idiomas
     Sylvan,
     Undercommon
 }
+
+public enum Colors
+{
+    RED,
+    BLUE,
+    GREEN,
+    WHITE,
+    BLACK
+}
+public enum GameState
+{
+    Menu,
+    Playing,
+    Paused,
+    GameOver,
+    Dialog
+}

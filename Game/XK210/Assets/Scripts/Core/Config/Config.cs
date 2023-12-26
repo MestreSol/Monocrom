@@ -24,14 +24,14 @@ public class Config : MonoBehaviour
 
     public void NextLegendaLang()
     {
-        save.LegendaLang = (Langs)(((int)save.LegendaLang + 1) % 2);
-        LegendaLabel.text = save.LegendaLang.ToString();
+        save.subTitleLang = (Langs)(((int)save.subTitleLang + 1) % 2);
+        LegendaLabel.text = save.subTitleLang.ToString();
     }
 
     public void PreviosLegendaLang()
     {
-        save.LegendaLang = (Langs)(((int)save.LegendaLang - 1) % 2);
-        LegendaLabel.text = save.LegendaLang.ToString();
+        save.subTitleLang = (Langs)(((int)save.subTitleLang - 1) % 2);
+        LegendaLabel.text = save.subTitleLang.ToString();
     }
 
     // Audio Lang
@@ -40,13 +40,13 @@ public class Config : MonoBehaviour
 
     public void NextLangAudio()
     {
-        save.AudioLang = (Langs)(((int)save.AudioLang + 1) % 2);
-        LangLabel.text = save.AudioLang.ToString();
+        save.audioLang = (Langs)(((int)save.audioLang + 1) % 2);
+        LangLabel.text = save.audioLang.ToString();
     }
     public void PreviosLangAudio()
     {
-        save.AudioLang = (Langs)(((int)save.AudioLang - 1) % 2);
-        LangLabel.text = save.AudioLang.ToString();
+        save.audioLang = (Langs)(((int)save.audioLang - 1) % 2);
+        LangLabel.text = save.audioLang.ToString();
     }
 
     // Tutorial
@@ -54,8 +54,8 @@ public class Config : MonoBehaviour
 
     public void ToggleTutorial()
     {
-        save.Tutorial = !save.Tutorial;
-        if (save.Tutorial)
+        save.tutorial = !save.tutorial;
+        if (save.tutorial)
             TutorialButton.GetComponent<Image>().color = Color.green;
         else
             TutorialButton.GetComponent<Image>().color = Color.red;
@@ -66,8 +66,8 @@ public class Config : MonoBehaviour
 
     public void ToggleVibraControle()
     {
-        save.VibraControle = !save.VibraControle;
-        if (save.VibraControle)
+        save.vibraControle = !save.vibraControle;
+        if (save.vibraControle)
             VibraControle.GetComponent<Image>().color = Color.green;
         else
             VibraControle.GetComponent<Image>().color = Color.red;
@@ -77,8 +77,8 @@ public class Config : MonoBehaviour
 
     public void ToggleVibraCamera()
     {
-        save.VibraCamera = !save.VibraCamera;
-        if (save.VibraCamera)
+        save.vibraCamera = !save.vibraCamera;
+        if (save.vibraCamera)
             VibraCamera.GetComponent<Image>().color = Color.green;
         else
             VibraCamera.GetComponent<Image>().color = Color.red;
@@ -88,22 +88,22 @@ public class Config : MonoBehaviour
     
     public void ToggleVsync()
     {
-        save.Vsync = !save.Vsync;
-        if (save.Vsync)
+        save.vsync = !save.vsync;
+        if (save.vsync)
             Vsync.GetComponent<Image>().color = Color.green;
         else
             Vsync.GetComponent<Image>().color = Color.red;
 
-        QualitySettings.vSyncCount = save.Vsync ? 1 : 0;
+        QualitySettings.vSyncCount = save.vsync ? 1 : 0;
     }
 
     public GameObject ModoDeJanela;
     public void NextTipoJanela()
     {
-        save.ModoDeJanela = (TiposDeJanela)(((int)save.ModoDeJanela + 1) % 3);
-        ModoDeJanela.GetComponent<TMP_Text>().text = save.ModoDeJanela.ToString();
+        save.modoDeJanela = (TiposDeJanela)(((int)save.modoDeJanela + 1) % 3);
+        ModoDeJanela.GetComponent<TMP_Text>().text = save.modoDeJanela.ToString();
 
-        switch (save.ModoDeJanela)
+        switch (save.modoDeJanela)
         {
             case TiposDeJanela.TelaCheia:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -119,10 +119,10 @@ public class Config : MonoBehaviour
     
     public void PreviosTipoJanela()
     {
-        save.ModoDeJanela = (TiposDeJanela)(((int)save.ModoDeJanela - 1) % 3);
+        save.modoDeJanela = (TiposDeJanela)(((int)save.modoDeJanela - 1) % 3);
         //ModoDeJanela.GetComponent<TMP_Text>().text = save.ModoDeJanela.ToString();
 
-        switch (save.ModoDeJanela)
+        switch (save.modoDeJanela)
         {
             case TiposDeJanela.TelaCheia:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
@@ -169,70 +169,70 @@ public class Config : MonoBehaviour
                 Screen.SetResolution(1920, 1080, Screen.fullScreenMode);
                 break;
         }
-        save.Resolucao = Screen.currentResolution;
+        save.resolution = Screen.currentResolution;
     }
 
     public void SetMainAudio(Slider volume)
     {
-        save.MainVolume = volume.value-1;
+        save.mainVolume = volume.value-1;
         audioMixer.SetFloat("MainVolume", volume.value-1);
     }
     public void SetInterfaceAudio(Slider volume)
     {
-        save.InterfaceVolume = volume.value-1;
+        save.interfaceVolume = volume.value-1;
         audioMixer.SetFloat("InterfaceVolume", volume.value-1);
     }
     public void SetMusicAudio(Slider volume)
     {
-        save.MusicVolume = volume.value-1;
+        save.musicVolume = volume.value-1;
         audioMixer.SetFloat("MusicVolume", volume.value-1);
     }
     public void SetSFXAudio(Slider volume)
     {
         // 0 = -80
         // 1 = 0
-        save.SFXVolume = volume.value-1;
+        save.sfxVolume = volume.value-1;
         audioMixer.SetFloat("SFXVolume", volume.value-1);
     }
     public void Save()
     {
         System.IO.File.WriteAllText(Application.persistentDataPath + "/config.json", JsonUtility.ToJson(save));
-        GameManager.config = save;
+        GameManager.instance.configure = save;
     }
     public void Load()
     {
-        GameManager.config = save;
-        audioMixer.SetFloat("MainVolume", save.MainVolume);
-        audioMixer.SetFloat("InterfaceVolume", save.InterfaceVolume);
-        audioMixer.SetFloat("MusicVolume", save.MusicVolume);
-        audioMixer.SetFloat("SFXVolume", save.SFXVolume);
+        GameManager.instance.configure = save;
+        audioMixer.SetFloat("MainVolume", save.mainVolume);
+        audioMixer.SetFloat("InterfaceVolume", save.interfaceVolume);
+        audioMixer.SetFloat("MusicVolume", save.musicVolume);
+        audioMixer.SetFloat("SFXVolume", save.sfxVolume);
 
-        if (save.Tutorial)
+        if (save.tutorial)
             TutorialButton.GetComponent<Image>().color = Color.green;
         else
             TutorialButton.GetComponent<Image>().color = Color.red;
 
-        if (save.VibraControle)
+        if (save.vibraControle)
             VibraControle.GetComponent<Image>().color = Color.green;
         else
             VibraControle.GetComponent<Image>().color = Color.red;
 
-        if (save.VibraCamera)
+        if (save.vibraCamera)
             VibraCamera.GetComponent<Image>().color = Color.green;
         else
             VibraCamera.GetComponent<Image>().color = Color.red;
 
-        if (save.Vsync)
+        if (save.vsync)
             Vsync.GetComponent<Image>().color = Color.green;
         else
             Vsync.GetComponent<Image>().color = Color.red;
 
-        LegendaLabel.text = save.LegendaLang.ToString();
-        LangLabel.text = save.AudioLang.ToString();
+        LegendaLabel.text = save.subTitleLang.ToString();
+        LangLabel.text = save.audioLang.ToString();
         LoadResolutions();
-        Resolutions.value = save.Resolucao.width;
+        Resolutions.value = save.resolution.width;
 
-        switch (save.ModoDeJanela)
+        switch (save.modoDeJanela)
         {
             case TiposDeJanela.TelaCheia:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;

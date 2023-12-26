@@ -1,11 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
 [System.Serializable]
-[RequiredComponent(typeof(Rigidbody2D))]
-[RequiredComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class Entity: MonoBehaviour
 {
     [Header("Unity Objects")]
     public Animator animator;
     public SpriteRenderer renderer;
+    public Collider2D collider;
     public float wallCheckDistance;
     public float speed;
     public float flySpeed;
@@ -34,9 +40,12 @@ public class Entity: MonoBehaviour
     public bool isWallJumping = false;
     public bool isJumping = false;
 
+    public GameObject floatingTextPrefab;
+
     public void TakeDamage(float damage){
         life -= damage;
         animator.SetTrigger("TakeDamage");
+        ShowFloatingText(damage);
         if(life <= 0)
             StartCoroutine(Die());
     }
@@ -52,6 +61,7 @@ public class Entity: MonoBehaviour
         life += Heal;
         if (life > maxLife)
             life = maxLife;
+        ShowFloatingText(Heal);
     }
     private void ShowFloatingText(float amount)
     {
@@ -59,11 +69,11 @@ public class Entity: MonoBehaviour
         instance.GetComponent<TextMeshPro>().text = amount.ToString();
         if(amount < 0)
         {
-            instance.GetComponent<TextMeshPro>().text.color = Color.red;
+            instance.GetComponent<TextMeshPro>().color = Color.red;
         }
         else
         {
-            instance.GetComponent<TextMeshPro>().text.color = Color.green;
+            instance.GetComponent<TextMeshPro>().color = Color.green;
         }
     }
 }

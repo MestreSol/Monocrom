@@ -1,8 +1,10 @@
+using UnityEngine;
+
 public class ConfigFromSave
 {
     public Langs audioLang = Langs.Portuguese;
     public Langs subTitleLang = Langs.Portuguese;
-    public TiposDeJanela modoDeJanela = TipoDeJanela.TelaCheia;
+    public TiposDeJanela modoDeJanela = TiposDeJanela.TelaCheia;
 
     public Resolution resolution = Screen.currentResolution;
     
