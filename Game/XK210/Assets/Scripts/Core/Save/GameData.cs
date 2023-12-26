@@ -3,10 +3,10 @@ using System;
 
 [Serializable]
 public class GameData{
-    public Player playerState;
+    public Player player;
     public PlayerProgress progress;
     public GameData(){
-        playerState = new Player();
+        player = new Player();
         progress = new PlayerProgress();
     }
 }
