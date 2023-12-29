@@ -1,0 +1,19 @@
+"lang"
+{
+    "english"
+    {
+        "tokens"
+        {
+            "#status" "In %s1%"
+            "#status_dead" "Dead"
+        }
+    }
+	"brazilian"
+    {
+        "tokens"
+        {
+            "#status" "In %s1%"
+            "#status_dead" "Dead"
+        }
+    }
+}

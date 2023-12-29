@@ -1,4 +1,6 @@
-public class PlayerAparence
+using UnityEngine;
+
+public class PlayerAparence : MonoBehaviour
 {
     public Player player;
 

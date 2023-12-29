@@ -25,6 +25,8 @@ public class Entity: MonoBehaviour
 
     public float life = 0;
     public float maxLife;
+    public float postura = 0;
+    public float maxPostura;
     public int forca = 0;
     public int destresa = 0;
     public int sorte = 0;

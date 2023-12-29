@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     public float _horizontal;
 
     [SerializeField] public float _speed;
-    [SerializeField] private float _jumpForce;
 
     private float _wallSlidingSpeed = 0.75f;
     private float _wallJumpingTime = 0.5f;
@@ -16,14 +15,14 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown = 1f;
     public float dashSpeed = 1f;
 
-    [SerializeField] private int _jumpCountMax;
+    [SerializeField] private int _jumpCountMax = 2;
     [SerializeField] private Vector2 _wallJumpingPower = new Vector2(8f, 16f);
 
     [SerializeField] public Rigidbody2D _rigidbody;
     [SerializeField] public GameObject _wallCheck;
     [SerializeField] public LayerMask _wallLayer;
     [SerializeField] public GameObject _attackCheck;
-
+    public int _jumpCount = 0;
     public LayerMask _enemyLayer;
     public void Move()
     {
@@ -34,13 +33,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump()
     {
-        if (_wallJumpingCounter < _jumpCountMax)
+        // Se o jogador já pulou o número máximo de vezes, não permita que ele pule novamente
+        if (_jumpCount >= _jumpCountMax)
         {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
-            _wallJumpingCounter++;
-            player.animation.Jump();
+            return;
         }
+
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, player.jumpForce);
+        _jumpCount++;
+        player.animation.Jump();
     }
+
     public void WallSliding()
     {
         if (player.state.isWalled() && _horizontal != 0f && _rigidbody.velocity.y < 0f)
@@ -79,4 +82,12 @@ public class PlayerMovement : MonoBehaviour
         player.state.isDashing = false;
         player.collider.enabled = true;
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+{
+    // Se o jogador colidir com o chão ou a parede, resete o contador de pulos
+    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
+    {
+        _jumpCount = 0;
+    }
+}
 }

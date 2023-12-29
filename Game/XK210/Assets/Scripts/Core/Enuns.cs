@@ -3,8 +3,17 @@ public enum Langs
     English,
     Portuguese
 }
+public enum WeaponCategory
+{
+    Sword,
+    Axe,
+    Bow,
+    Staff,
+    Wand,
+    Shield,
+    Other
+}
 public enum Category{
-    Weapon,
     Armor,
     Potion,
     Food,

@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerState
+public class PlayerState : MonoBehaviour
 {
     public Player player;
 
@@ -9,18 +10,23 @@ public class PlayerState
     public bool isDashing;
     public bool isWallSliding;
     public bool isFacingRight;
-
+    public float groundCheckDistance;
     [SerializeField] private GameObject _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
 
     public bool isGrounded()
     {
-        bool isGround = Physics2D.OverlapCircle(_groundCheck.transform.position, 0.2f, _groundLayer);
-        if (isGround)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, _groundLayer);
+        if (hit.collider != null)
         {
+            player.inGround = true;
+        }
+        else
+        {
+            player.inGround = false;
             Land();
         }
-        return isGround;
+        return player.inGround;
     }
     public void Land()
     {

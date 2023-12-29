@@ -1,14 +1,19 @@
 
 using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerInventory{
+public class PlayerInventory : MonoBehaviour
+{
     public Player player;
     public List<Item> Items { get; set; }
     public float MaxWeight{get; set; }
     public float CurrentWeight{get; set; }
 
     public Weapon CurrentWeapon { get; set; }
-
+    public void Start()
+    {
+        CurrentWeapon = new Weapon() { category = WeaponCategory.Sword, damage = 10, weight = 1, name = "Espada" };
+    }
     public PlayerInventory(List<Item> Items, float MaxWeight, float CurrentWeight)
     {
         this.Items = Items;

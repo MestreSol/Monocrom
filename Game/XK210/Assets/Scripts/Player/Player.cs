@@ -1,6 +1,19 @@
 using UnityEngine;
 
 [System.Serializable]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PlayerProgress))]
+[RequireComponent(typeof(PlayerState))]
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerCombat))]
+[RequireComponent(typeof(PlayerAnimation))]
+[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerInventory))]
+[RequireComponent(typeof(PlayerAparence))]
+[RequireComponent(typeof(PlayerHUD))]
 public class Player : Entity
 {
     public PlayerProgress progress;
@@ -36,6 +49,7 @@ public class Player : Entity
         aparence.player = this;
         hud.player = this;
 
+
     }
 
     public void FixedUpdate()
@@ -70,6 +84,11 @@ public class Player : Entity
             }
         }
 
+
+    }
+    public void Start()
+    {
+        SteamController.Instance.UpdatePlayerLocation();
 
     }
     private void OnGUI()

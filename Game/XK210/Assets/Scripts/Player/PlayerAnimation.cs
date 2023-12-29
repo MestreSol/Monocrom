@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimation
+public class PlayerAnimation : MonoBehaviour
 {
     public Player player;
     public SpriteRenderer sprite;
@@ -10,12 +10,12 @@ public class PlayerAnimation
     }
     public void Flip()
     {
-        if (player.state.isFacingRight && player.movement._speed < 0f || !player.state.isFacingRight && player.movement._speed > 0)
+        if (player.state.isFacingRight && player.movement._horizontal < 0f || !player.state.isFacingRight && player.movement._horizontal > 0f)
         {
             player.state.isFacingRight = !player.state.isFacingRight;
-            Vector3 localScale = player.gameObject.transform.localScale;
-            localScale.x *= -1;
-            player.gameObject.transform.localScale = localScale;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 
@@ -46,11 +46,8 @@ public class PlayerAnimation
             case Colors.BLUE:
                 sprite.color = new Color(0f, 0f, 1f, 1f);
                 break;
-           
-
-                break;
             case Colors.BLACK:
-                sprite.color = new Color(0f, 0f, 0f, 1f);
+                sprite.color = new Color(1f, 1f, 1f, 1f);
                 break;
         }
     }

@@ -8,6 +8,6 @@ public class Item
     public string description { get; set; }
     public Sprite icon { get; set; }
 
-    public Category category { get; set; }
+    public WeaponCategory category { get; set; }
     public float weight { get; set; }
 }

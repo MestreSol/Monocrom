@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerCombat
+public class PlayerCombat : MonoBehaviour
 {
     public Player player;
 
@@ -12,8 +12,8 @@ public class PlayerCombat
     public LayerMask _enemyLayer;
     public List<string> _comboSequence = new List<string>();
     private float _comboTimer = 0f;
-    private float _comboMaxTime = 2.0f;
-    private float _maxCombo = 10f;
+    [SerializeField]private float _comboMaxTime = 90.0f;
+    [SerializeField]private float _maxCombo = 10f;
     private float _attackCooldown = 0.5f;
     private float _attackCooldownTimer = 0f;
     private float _attackSpeedDump = 0f;
@@ -30,6 +30,7 @@ public class PlayerCombat
     }
     public void ResetCombo()
     {
+        Debug.Log("Reset Combo");
         _comboSequence.Clear();
         _comboTimer = 0f;
         player.animation.AttackUpdate(0, 0);
@@ -66,34 +67,31 @@ public class PlayerCombat
     private void AddCombo(string combo)
     {
         _comboSequence.Add(combo);
-        if(_comboSequence.Count > _maxCombo)
+        Debug.Log(combo);
+
+        if(_comboSequence.Count >= _maxCombo)
         {
             ResetCombo();
             return;
         }
-        _comboTimer = _comboMaxTime;
+        _comboTimer += Time.deltaTime;
+        if(_comboTimer > _comboMaxTime)
+        {
+            ResetCombo();
+            return;
+        }
 
         string lastCombo = _comboSequence[_comboSequence.Count - 1];
         string beforeCombo;
 
-        try
-        {
-            beforeCombo = _comboSequence[_comboSequence.Count - 2];
-        }
-        catch (Exception e)
-        {
-            beforeCombo = "";
-        }
-
         float damage = 0f;
         float DeltaS = 0f;
 
+       
         switch (lastCombo)
         {
             case "I":
-                player.animation.sprite.color -= new Color(0f, 0.1f, 0.1f, 0f);
-                player.animation.sprite.color += new Color(0.1f, 0f, 0f, 0f);
-                player.animation.AttackUpdate(_comboSequence.Count,1);
+                ChangeSpriteColor(new Color(0.1f, -0.1f, -0.1f, 0f));
                 player.animator.SetInteger("AttackType", 1);
                 DeltaS = ((player.sorte + player.inventory.CurrentWeapon.critChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
                 if (DeltaS > 50)
@@ -107,35 +105,34 @@ public class PlayerCombat
                 break;
             //O = Verde = Rapido
             case "O":
-                player.animation.sprite.color -= new Color(0.1f, 0f, 0.1f, 0f);
-                player.animation.sprite.color += new Color(0f, 0.1f, 0f, 0f);
-                player.animation.AttackUpdate(_comboSequence.Count, 2);
+                ChangeSpriteColor(new Color(-0.1f, 0.1f, -0.1f, 0f));
                 damage = (player.forca * 0.5f) + player.inventory.CurrentWeapon.damage + 1;
                 _attackCooldown = _attackCooldownTimer - (player.destresa - player.inventory.CurrentWeight);
                 break;
 
             //P = Azul = Magico
             case "P":
-                player.animation.sprite.color -= new Color(0.1f, 0.1f, 0f, 0f);
-                player.animation.sprite.color += new Color(0f, 0f, 0.1f, 0f);
-                player.animation.AttackUpdate(_comboSequence.Count, 3);
+                ChangeSpriteColor(new Color(-0.1f, -0.1f, 0.1f, 0f));
                 DeltaS = ((player.sorte + player.inventory.CurrentWeapon.critChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
                 damage = (player.energia * (player.sorte / DeltaS));
                 break;
             case "J":
-                player.animation.sprite.color -= new Color(0.1f, 0.1f, 0.1f, 0f);
-                player.animation.sprite.color += new Color(0.1f, 0.1f, 0.1f, 0f);
-                player.animation.AttackUpdate(_comboSequence.Count, 4);
+                ChangeSpriteColor(new Color(0.1f, 0.1f, 0.1f, 0f));
                 break;
         }
         MakeDamage(damage);
-        if (_comboSequence.Count == 10)
+        Debug.Log(_comboSequence.Count);
+        if (_comboSequence.Count >= 10)
         {
             ResetCombo();
             return;
         }
 
         player.animator.SetTrigger("Attack");
+    }
+    private void ChangeSpriteColor(Color change)
+    {
+        player.animation.sprite.color += change;
     }
     private void MakeDamage(float damage)
     {
