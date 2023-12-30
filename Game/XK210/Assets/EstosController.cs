@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,23 +13,38 @@ public class EstosController : MonoBehaviour
     public List<GameObject> Objeto;
 
     public GameObject PrefabUsado;
-    public GameObject PrefabNaoUsado;
+    public void Redus()
+    {
+        Usos--;
+        Objeto[Usos].GetComponentInChildren<SpriteRenderer>().color = Color.red;
+    }
+    public void RecuperarTudo()
+    {
+        Usos = UsosMax;
+        for (int i = 0; i < UsosMax; i++)
+        {
+            Objeto[i].GetComponentInChildren<SpriteRenderer>().color = Color.green;
+        }
+    }
     public void Start()
     {
         Objeto = new List<GameObject>();
+        float x = this.transform.position.x-2.3f;
         for (int i = 0; i < UsosMax; i++)
         {
-            GameObject ins = new GameObject();
-            if(i >= Usos)
+            Vector3 position = new Vector3(i+x, this.transform.position.y, this.transform.position.z);
+            GameObject ins;
+            if (i >= Usos)
             {
-                ins = Instantiate(PrefabNaoUsado, Objeto[i].transform);
+                ins = Instantiate(PrefabUsado, position, Quaternion.identity, this.transform);
+                ins.GetComponentInChildren<SpriteRenderer>().color = Color.red;
             }
             else
             {
-                ins = Instantiate(PrefabUsado, Objeto[i].transform);
+                ins = Instantiate(PrefabUsado, position, Quaternion.identity, this.transform);
+                ins.GetComponentInChildren<SpriteRenderer>().color = Color.green;
             }
             Objeto.Add(ins);
-
         }
     }
 }

@@ -68,14 +68,16 @@ public class Entity: MonoBehaviour
     private void ShowFloatingText(float amount)
     {
         var instance = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-        instance.GetComponent<TextMeshPro>().text = amount.ToString();
+        Canvas canva = instance.GetComponentInChildren<Canvas>();
+        TMP_Text text = canva.GetComponentInChildren<TMP_Text>();
+        text.text = amount.ToString();
         if(amount < 0)
         {
-            instance.GetComponent<TextMeshPro>().color = Color.red;
+            text.color = Color.red;
         }
         else
         {
-            instance.GetComponent<TextMeshPro>().color = Color.green;
+            text.color = Color.green;
         }
     }
 }

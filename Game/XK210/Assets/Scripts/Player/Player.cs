@@ -14,6 +14,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInventory))]
 [RequireComponent(typeof(PlayerAparence))]
 [RequireComponent(typeof(PlayerHUD))]
+[RequireComponent(typeof(PlayerActions))]
 public class Player : Entity
 {
     public PlayerProgress progress;
@@ -25,6 +26,7 @@ public class Player : Entity
     public PlayerInventory inventory;
     public PlayerAparence aparence;
     public PlayerHUD hud;
+    public PlayerActions actions;
     public GameObject gameObject;
 
     public void Awake()
@@ -38,6 +40,7 @@ public class Player : Entity
         inventory = inventory == null ? new PlayerInventory() : inventory;
         aparence = aparence == null ? new PlayerAparence() : aparence;
         hud = hud == null ? new PlayerHUD() : hud;
+        actions = actions == null ? new PlayerActions() : actions;
 
         progress.player = this;
         state.player = this;
@@ -48,6 +51,7 @@ public class Player : Entity
         inventory.player = this;
         aparence.player = this;
         hud.player = this;
+        actions.player = this;
 
 
     }
@@ -77,6 +81,8 @@ public class Player : Entity
             combat.UpdateComboTimer();
             combat.UpdateAttackCooldown();
             combat.ProcessAttackInput();
+
+            actions.UseHeal();
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && !state.isDashing)
             {

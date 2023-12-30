@@ -11,6 +11,8 @@ public class PlayerHUD : MonoBehaviour
     public Slider Life;
     public Slider Postura;
 
+    public EstosController estosController;
+
     private void Start()
     {
         Life.maxValue = player.maxLife;
