@@ -11,9 +11,9 @@ public class SaveSlot : MonoBehaviour
     public Save save;
     public TMP_Text saveName;
     public TMP_Text saveTime;
-    public Animator anim;
+    public StartNewGame startNewGame;
     public int id;
-    public void LoadCreateSave(GameObject obj)
+    public void LoadCreateSave(Button obj)
     {
         if (save != null)
         {
@@ -23,10 +23,12 @@ public class SaveSlot : MonoBehaviour
         {
             if (gameObject != null)
             {
-               StartNewGame startNewGame = gameObject.GetComponent<StartNewGame>();
+               
                 if (startNewGame != null)
                 {
-                    obj.GetComponent<Button>().onClick.AddListener(delegate { startNewGame.NewSave(id); });
+                    obj.onClick.AddListener(delegate { startNewGame.NewSave(id); });
+                    startNewGame.anim.SetInteger("SaveSlot", id);
+                    startNewGame.anim.SetTrigger("GoTo");
                 }
                 else
                 {
@@ -38,7 +40,5 @@ public class SaveSlot : MonoBehaviour
                 Debug.LogError("GameObject is null");
             }
         }
-        anim.SetInteger("SaveSlot", id);
-        anim.SetTrigger("GoTo");
     }
 }

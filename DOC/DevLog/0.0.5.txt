@@ -1,0 +1,1 @@
+Adição de texto flutuante para retorno de dano e cura, ideal verificar a compatibilidade com o Animation in Text para melhorar o efeito de surgimento

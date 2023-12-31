@@ -67,17 +67,18 @@ public class Entity: MonoBehaviour
     }
     private void ShowFloatingText(float amount)
     {
-        var instance = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
-        Canvas canva = instance.GetComponentInChildren<Canvas>();
-        TMP_Text text = canva.GetComponentInChildren<TMP_Text>();
-        text.text = amount.ToString();
+        var instance = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);        
+        TMP_Text text = instance.GetComponentInChildren<TMP_Text>();
         if(amount < 0)
         {
+            text.text = "<shake>"+amount.ToString()+"</shake>";
             text.color = Color.red;
         }
         else
         {
+            text.text = "<swing>"+amount.ToString()+"</swing>";
             text.color = Color.green;
         }
+        Destroy(instance,1f);
     }
 }

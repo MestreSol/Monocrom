@@ -7,6 +7,8 @@ public class StartNewGame : MonoBehaviour
 {
     public TMP_InputField saveName;
     public TMP_InputField titulo;
+    public Animator anim;
+
     public void NewSave(int id)
     {
         if (saveName.text != "" && titulo.text != "")

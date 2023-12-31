@@ -14,6 +14,11 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private GameObject _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
 
+    public PlayerState()
+    {
+        color = Colors.WHITE;
+    }
+
     public bool isGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, _groundLayer);

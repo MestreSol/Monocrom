@@ -31,6 +31,7 @@ public class Player : Entity
 
     public void Awake()
     {
+
         progress = progress == null ? new PlayerProgress() : progress;
         state = state == null ? new PlayerState() : state;
         movement = movement == null ? new PlayerMovement() : movement;
@@ -55,7 +56,19 @@ public class Player : Entity
 
 
     }
-
+    public Player()
+    {
+        progress = new PlayerProgress();
+        state = new PlayerState();
+        movement = new PlayerMovement();
+        combat = new PlayerCombat();
+        animation = new PlayerAnimation();
+        input = new PlayerInput();
+        inventory = new PlayerInventory();
+        aparence = new PlayerAparence();
+        hud = new PlayerHUD();
+        actions = new PlayerActions();
+    }
     public void FixedUpdate()
     {
         if (!isWallJumping)
@@ -66,9 +79,9 @@ public class Player : Entity
 
     public void Update()
     {
-        if(GameManager.instance.curState == GameState.Playing)
+        if (GameManager.instance.curState == GameState.Playing)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 movement.Jump();
             }

@@ -10,7 +10,12 @@ public class PlayerHUD : MonoBehaviour
 
     public Slider Life;
     public Slider Postura;
+    public Slider Stamina;
+    public Slider ToLevel;
 
+    public TMP_Text Esperanca;
+    public TMP_Text Cristais;
+    public TMP_Text Level;
     public EstosController estosController;
 
     private void Start()
