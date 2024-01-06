@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
             player.state.isWallSliding = false;
         }
     }
+
     public void WallJumping()
     {
         if (player.state.isWallSliding && Input.GetKeyDown(KeyCode.Space))
@@ -73,14 +74,14 @@ public class PlayerMovement : MonoBehaviour
     public void Dash()
     {
         player.state.isDashing = true;
-        player.collider.enabled = false;
+        player.hitBox.enabled = false;
         Invoke(nameof(StopDash), dashCooldown);
         _rigidbody.AddForce(new Vector2(_rigidbody.velocity.x * dashSpeed, _rigidbody.velocity.y));
     }
     private void StopDash()
     {
         player.state.isDashing = false;
-        player.collider.enabled = true;
+        player.hitBox.enabled = true;
     }
     private void OnCollisionEnter2D(Collision2D collision)
 {

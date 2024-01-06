@@ -6,13 +6,15 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public Save curSave;
     public ConfigFromSave configure;
-
+    public GameObject Manager;
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(gameObject);
+
+        DontDestroyOnLoad(Manager);
     }
 
     public void StartGame()

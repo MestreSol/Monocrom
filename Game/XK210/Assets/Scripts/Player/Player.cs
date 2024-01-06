@@ -29,20 +29,55 @@ public class Player : Entity
     public PlayerActions actions;
     public GameObject gameObject;
 
+    public delegate void OnPontosChangedDelegate(int pontos);
+    public event OnPontosChangedDelegate OnPontosChanged;
+    private int _pontos = 0;
+    public int Pontos
+    {
+        get { return _pontos; }
+        set
+        {
+            if (_pontos != value)
+            {
+                _pontos = value;
+                OnPontosChanged?.Invoke(_pontos);
+            }
+        }
+    }
+    private int _cristais;
+    public int Cristais
+    {
+        get { return _cristais; }
+        set
+        {
+            if (_cristais != value)
+            {
+                _cristais = value;
+                hud.Cristais.text = _cristais.ToString();
+            }
+        }
+    }
+
+    public int Nivel = 1;
+    public int PontosParaProxNivel = 100;
+
+    public delegate void OnXPChangedDelegate(int XP);
+    public event OnXPChangedDelegate OnXPChanged;
+    private int _XP;
+    public int XP
+    {
+        get { return _XP; }
+        set
+        {
+            if (_XP != value)
+            {
+                _XP = value;
+                OnXPChanged?.Invoke(_XP);
+            }
+        }
+    }
     public void Awake()
     {
-
-        progress = progress == null ? new PlayerProgress() : progress;
-        state = state == null ? new PlayerState() : state;
-        movement = movement == null ? new PlayerMovement() : movement;
-        combat = combat == null ? new PlayerCombat() : combat;
-        animation = animation == null ? new PlayerAnimation() : animation;
-        input = input == null ? new PlayerInput() : input;
-        inventory = inventory == null ? new PlayerInventory() : inventory;
-        aparence = aparence == null ? new PlayerAparence() : aparence;
-        hud = hud == null ? new PlayerHUD() : hud;
-        actions = actions == null ? new PlayerActions() : actions;
-
         progress.player = this;
         state.player = this;
         movement.player = this;
@@ -53,22 +88,9 @@ public class Player : Entity
         aparence.player = this;
         hud.player = this;
         actions.player = this;
-
-
+        Born();
     }
-    public Player()
-    {
-        progress = new PlayerProgress();
-        state = new PlayerState();
-        movement = new PlayerMovement();
-        combat = new PlayerCombat();
-        animation = new PlayerAnimation();
-        input = new PlayerInput();
-        inventory = new PlayerInventory();
-        aparence = new PlayerAparence();
-        hud = new PlayerHUD();
-        actions = new PlayerActions();
-    }
+    
     public void FixedUpdate()
     {
         if (!isWallJumping)
@@ -81,11 +103,13 @@ public class Player : Entity
     {
         if (GameManager.instance.curState == GameState.Playing)
         {
+            bool isWalled = state.isWalled();
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 movement.Jump();
             }
-            if (state.isWalled())
+            if (isWalled)
             {
                 movement.WallSliding();
                 movement.WallJumping();
@@ -101,27 +125,62 @@ public class Player : Entity
             {
                 movement.Dash();
             }
+            UpdateStamina();
+            UpdatePosture();
+        }
+    }
+
+
+    public float posturaRegenCooldown = 1f;
+    public float posturaRegenTimer = 0f;
+    public float posturaRegenRedus = 0f;
+    public void UpdatePosture()
+    {
+        if (Posture >= maxPosture)
+        {
+            posturaRegenTimer = 0f; // Reset the timer when stamina is full
+            return;
         }
 
-
+        if (posturaRegenTimer >= posturaRegenCooldown)
+        {
+            float regen = (destresa / 10) - posturaRegenRedus;
+            Posture += regen; // Make the increase smooth by multiplying with Time.deltaTime
+            posturaRegenTimer = 0f; // Reset the timer after regenerating stamina
+        }
+        else
+        {
+            posturaRegenTimer += Time.deltaTime; // Only increase the timer if stamina is not full
+        }
     }
+
+    public float staminaRegenCooldown = 1f;
+    public float staminaRegenTimer = 0f;
+    public float staminaRegenRedus = 0f;
+
+    public void UpdateStamina()
+    {
+        if (Stamina >= maxStamina)
+        {
+            staminaRegenTimer = 0f; // Reset the timer when stamina is full
+            return;
+        }
+
+        if (staminaRegenTimer >= staminaRegenCooldown)
+        {
+            float regen = (destresa / 10) - staminaRegenRedus;
+            Stamina += regen; // Make the increase smooth by multiplying with Time.deltaTime
+            staminaRegenTimer = 0f; // Reset the timer after regenerating stamina
+        }
+        else
+        {
+            staminaRegenTimer += Time.deltaTime; // Only increase the timer if stamina is not full
+        }
+    }
+
+
     public void Start()
     {
         SteamController.Instance.UpdatePlayerLocation();
-
-    }
-    private void OnGUI()
-    {
-        string text = "isGrounded: " + state.isGrounded() + "\n" +
-                      "isWalled: " + state.isWalled() + "\n" +
-                      "isWallSliding: " + isWallSliding + "\n" +
-                      "isWallJumping: " + isWallJumping + "\n" +
-                      "wallJumpingCounter: " + movement._wallJumpingCounter + "\n" +
-                      "isFacingRight: " + state.isFacingRight + "\n" +
-                      "horizontal: " + movement._horizontal + "\n" +
-                      "rb.velocity: " + movement._rigidbody.velocity + "\n" +
-                      "Wall Count: " + jumpCount;
-        // Draw in screen
-        GUI.Label(new Rect(10, 10, 500, 500), text);
     }
 }

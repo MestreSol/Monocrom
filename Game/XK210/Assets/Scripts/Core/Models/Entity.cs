@@ -8,10 +8,64 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Entity: MonoBehaviour
 {
-    [Header("Unity Objects")]
+    public delegate void OnLifeChangedDelegate(float life);
+    public event OnLifeChangedDelegate OnLifeChanged;
+    public float maxLife;
+    private float _life;
+    public float Life
+    {
+        get { return _life; }
+        set
+        {
+            if (_life != value)
+            {
+                _life = value;
+                OnLifeChanged?.Invoke(_life);
+                Debug.Log(_life);
+                if (_life <= 0)
+                    OnDeathAnimationEnd();
+            }
+        }
+    }
+
+    public delegate void OnPostureChangedDelegate(float posture);
+    public event OnPostureChangedDelegate OnPostureChanged;
+    public float maxPosture;
+    private float _posture;
+    public float Posture
+    {
+        get { return _posture; }
+        set
+        {
+            if(_posture != value)
+            {
+                _posture = value;
+                OnPostureChanged?.Invoke(_posture);
+            }
+        }
+    }
+
+    public delegate void OnStaminaChangedDelegate(float stamina);
+    public event OnStaminaChangedDelegate OnStaminaChanged;
+    public float maxStamina;
+    private float _stamina;
+    public float Stamina
+    {
+        get { return _stamina; }
+        set
+        {
+            if(_stamina != value)
+            {
+                _stamina = value;
+                OnStaminaChanged?.Invoke(_stamina);
+            }
+        }
+    }
+
     public Animator animator;
     public SpriteRenderer renderer;
     public Collider2D collider;
+    public Collider2D hitBox;
     public float wallCheckDistance;
     public float speed;
     public float flySpeed;
@@ -23,10 +77,6 @@ public class Entity: MonoBehaviour
     public float armor;
     public List<Idiomas> idiomas;
 
-    public float life = 0;
-    public float maxLife;
-    public float postura = 0;
-    public float maxPostura;
     public int forca = 0;
     public int destresa = 0;
     public int sorte = 0;
@@ -44,41 +94,44 @@ public class Entity: MonoBehaviour
 
     public GameObject floatingTextPrefab;
 
-    public void TakeDamage(float damage){
-        life -= damage;
+    public void TakeDamage(float damage)
+    {
+        _life = damage;
         animator.SetTrigger("TakeDamage");
         ShowFloatingText(damage);
-        if(life <= 0)
-            StartCoroutine(Die());
+        
     }
-    private IEnumerator Die()
-    {
-        animator.SetTrigger("Die");
-        yield return new WaitForSeconds(1);
-        Destroy(gameObject);
-    }
-
     public void Healing(float Heal)
     {
-        life += Heal;
-        if (life > maxLife)
-            life = maxLife;
+        _life += Heal;
+        if (_life > maxLife)
+            _life = maxLife;
         ShowFloatingText(Heal);
     }
     private void ShowFloatingText(float amount)
     {
-        var instance = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);        
+        var instance = ObjectPooler.Instance.AddPooledObject(); // Assuming you have an ObjectPooler class
+        instance.transform.position = transform.position;
+        instance.SetActive(true);
+
         TMP_Text text = instance.GetComponentInChildren<TMP_Text>();
-        if(amount < 0)
+        if (amount < 0)
         {
-            text.text = "<shake>"+amount.ToString()+"</shake>";
+            text.text = "<shake>" + amount.ToString() + "</shake>";
             text.color = Color.red;
         }
         else
         {
-            text.text = "<swing>"+amount.ToString()+"</swing>";
+            text.text = "<swing>" + amount.ToString() + "</swing>";
             text.color = Color.green;
         }
-        Destroy(instance,1f);
+    }
+    public void OnDeathAnimationEnd()
+    {
+        Destroy(gameObject);
+    }
+    public void Born()
+    {
+        _life = maxLife;
     }
 }

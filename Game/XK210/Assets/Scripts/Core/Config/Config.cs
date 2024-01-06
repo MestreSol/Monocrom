@@ -174,25 +174,25 @@ public class Config : MonoBehaviour
 
     public void SetMainAudio(Slider volume)
     {
-        save.mainVolume = volume.value-1;
-        audioMixer.SetFloat("MainVolume", volume.value-1);
+        save.mainVolume = volume.value;
+        audioMixer.SetFloat("MainVolume", volume.value);
     }
     public void SetInterfaceAudio(Slider volume)
     {
-        save.interfaceVolume = volume.value-1;
-        audioMixer.SetFloat("InterfaceVolume", volume.value-1);
+        save.interfaceVolume = volume.value;
+        audioMixer.SetFloat("InterfaceVolume", volume.value);
     }
     public void SetMusicAudio(Slider volume)
     {
-        save.musicVolume = volume.value-1;
-        audioMixer.SetFloat("MusicVolume", volume.value-1);
+        save.musicVolume = volume.value;
+        audioMixer.SetFloat("MusicVolume", volume.value);
     }
     public void SetSFXAudio(Slider volume)
     {
         // 0 = -80
         // 1 = 0
-        save.sfxVolume = volume.value-1;
-        audioMixer.SetFloat("SFXVolume", volume.value-1);
+        save.sfxVolume = volume.value;
+        audioMixer.SetFloat("SFXVolume", volume.value);
     }
     public void Save()
     {

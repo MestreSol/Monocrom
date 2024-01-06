@@ -55,12 +55,19 @@ public class PlayerCombat : MonoBehaviour
             CheckAndAddCombo(KeyCode.J, "J");
         }
     }
-
+    public float staminaUse = 0f;
     private void CheckAndAddCombo(KeyCode key, string combo)
     {
+        
         if (Input.GetKeyDown(key))
         {
+            if ((player.Stamina - staminaUse) <= 0f)
+            {
+                return;
+            }
+            player.Stamina -= staminaUse;
             AddCombo(combo);
+
             _attackCooldown = _attackCooldownTimer;
         }
     }
@@ -136,13 +143,20 @@ public class PlayerCombat : MonoBehaviour
     }
     private void MakeDamage(float damage)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.transform.position, 0.2f, _enemyLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.transform.position, _attackRadius, _enemyLayer);
+        Debug.Log(colliders.Length+" Enemeyes Hit");
         foreach (Collider2D collider in colliders)
         {
-            if (collider.GetComponent<Enemy>())
+            if (collider.GetComponent<EnemyBase>())
             {
-                collider.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                collider.gameObject.GetComponent<EnemyBase>().TakeDamage(-damage);
             }
         }
+    }
+    private float _attackRadius = 0.5f;
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_attackCheck.transform.position, _attackRadius);
     }
 }
