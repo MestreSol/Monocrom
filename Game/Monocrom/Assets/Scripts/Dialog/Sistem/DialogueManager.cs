@@ -92,8 +92,8 @@ public class DialogueManager : MonoBehaviour
         if(Options.Count > 0){
             DialogueBox.SetActive(false);
             OptionsArea = Instantiate(Resources.Load("Prefabs/Dialogue/OptionsArea") as GameObject, GameObject.Find("Canvas").transform);
-            OptionsArea.GetComponent<OptionsController>().ShowOptions(Options);
-            
+            var controller = OptionsArea.GetComponent<OptionsController>();
+            controller.ShowOptions(Options);
         }
     }
     void EndDialogue()
