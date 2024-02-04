@@ -1298,10 +1298,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 295522397}
   m_HandleRect: {fileID: 195301290}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -40
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -13510,7 +13510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelArtFilter: {fileID: 4800000, guid: 7b90577204ab9d84eb6e9e0daef85674, type: 3}
-  downSamples: 1
+  downSamples: 0
 --- !u!1 &932094584
 GameObject:
   m_ObjectHideFlags: 0
@@ -17149,7 +17149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -702.95, y: -0.00024414062}
+  m_AnchoredPosition: {x: -702.94995, y: -0.00024414062}
   m_SizeDelta: {x: -1405.89, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1265484412
@@ -17705,10 +17705,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1432763425}
   m_HandleRect: {fileID: 856645282}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -40
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -39435,10 +39435,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1043244812}
   m_HandleRect: {fileID: 320582206}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -40
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -39674,10 +39674,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1602285267}
   m_HandleRect: {fileID: 1322896722}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
