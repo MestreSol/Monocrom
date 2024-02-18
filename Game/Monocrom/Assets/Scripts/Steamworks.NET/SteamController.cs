@@ -50,6 +50,7 @@ public class SteamController : MonoBehaviour
     public string GetSteamLanguageCode()
     {
         // Retorna o código do idioma atual do jogo
+        // Você precisará usar um método diferente da API Steamworks para obter essa informação
         return SteamApps.GetCurrentGameLanguage();
     }
 }

@@ -6,40 +6,41 @@ using UnityEngine;
 //OBS: Necessario veriricar Pary antes de aplicar o dano
 public class PlayerController : Player
 {
+    // Variáveis privadas para armazenar os valores de movimento do jogador
     private float _horizontal;
     private float _speed = 5f;
     private float _jumpForce = 5f;
-
     private float _wallSlidingSpeed = 0.75f;
-
     private float _walljumpingDirection;
     private float _wallJumpingTime = 0.5f;
     private float _wallJumpingCounter;
 
+    // Variáveis serializadas para permitir a configuração no editor Unity
     [SerializeField] private int _jumpCountMax = 2;
-
     [SerializeField] private Vector2 _wallJumpingPower = new Vector2(8f, 16f);
-
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private GameObject _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private GameObject _wallCheck;
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private GameObject _attackCheck;
-    public InvetoryController inventory;
+    [SerializeField] private float _attackCooldownTime = 0.1f;
+    [SerializeField] private TMP_Text _interactivePoint;
 
+    // Variáveis públicas para controle de inventário e dashing
+    public bool IsDashing = false;
+    public bool cooldownDash = false;
+    public float dashCooldown = 0.5f;
+    public float dashSpeed = 10f;
+
+    // Variáveis privadas para controle de combo e ataque
     private List<string> _comboSequence = new List<string>();
     private float _comboTimer = 0f;
     private float _comboMaxTime = 2f;
     private float _maxCombo = 10f;
     private float _attackCooldown = 0f;
-    [SerializeField] private float _attackCooldownTime = 0.1f;
-    [SerializeField] private TMP_Text _interactivePoint;
-    public bool IsDashing = false;
-    public bool cooldownDash = false;
-    public float dashCooldown = 0.5f;
-    public float dashSpeed = 10f;
     private float _attackSpeedDump = 0f;
+
     private void Awake()
     {
         Weapon weapon = new Weapon("Sword", 10, 1, 1);
@@ -148,45 +149,48 @@ public class PlayerController : Player
         
         float damage = 0f;
         float DeltaS = 0;
-        
+        Color color = spriteRenderer.color;
         switch (lastCombo)
         {
             //I = Vermelho = Forte
             case "I":
-                spriteRenderer.color -= new Color(0f, 0.1f, 0.1f, 0f);
-                spriteRenderer.color += new Color(0.1f, 0f, 0f, 0f);
+                color -= new Color(0f, 0.1f, 0.1f, 0f);
+                color += new Color(0.1f, 0f, 0f, 0f);
+                
                 animator.SetInteger("AttackType", 1);
-                DeltaS = ((sorte+equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100)/100)) / 100;
+                DeltaS = ((EntityStatus.GetStat(StatType.Luck).Value+equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100)/100)) / 100;
                 if(DeltaS > 50) {
-                    damage = (forca * (sorte / DeltaS * 2)) + equipedWeapon.Damage + 1;
+                    damage = (EntityStatus.GetStat(StatType.Strength).Value * (EntityStatus.GetStat(StatType.Luck).Value / DeltaS * 2)) + equipedWeapon.Damage + 1;
                 } else {
-                    damage = (forca) + equipedWeapon.Damage + 1;
+                    damage = (EntityStatus.GetStat(StatType.Strength).Value) + equipedWeapon.Damage + 1;
                 }
 
                 break;
             //O = Verde = Rapido
             case "O":
-                spriteRenderer.color -= new Color(0.1f, 0f, 0.1f, 0f);
-                spriteRenderer.color += new Color(0f, 0.1f, 0f, 0f);
+                color -= new Color(0.1f, 0f, 0.1f, 0f);
+                color += new Color(0f, 0.1f, 0f, 0f);
+
                 animator.SetInteger("AttackType", 2);
-                damage = (forca * 0.5f) + equipedWeapon.Damage + 1;
-                _attackCooldown = _attackCooldownTime - (destresa - inventory.Peso);
+                damage = (EntityStatus.GetStat(StatType.Strength).Value * 0.5f) + equipedWeapon.Damage + 1;
+                //_attackCooldown = _attackCooldownTime - (EntityStatus.GetStat(StatType.Dexterity).Value - inventory.Peso);
                 break;
 
             //P = Azul = Magico
             case "P":
-                spriteRenderer.color -= new Color(0.1f, 0.1f, 0f, 0f);
-                spriteRenderer.color += new Color(0f, 0f, 0.1f, 0f);
+                color -= new Color(0.1f, 0.1f, 0f, 0f);
+                color += new Color(0f, 0f, 0.1f, 0f);
                 animator.SetInteger("AttackType", 3);
-                DeltaS = ((sorte + equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
-                damage = (energia * (sorte / DeltaS));
+                DeltaS = ((EntityStatus.GetStat(StatType.Luck).Value + equipedWeapon.CritChance) % (UnityEngine.Random.Range(1, 100) / 100)) / 100;
+                damage = (EntityStatus.GetStat(StatType.Energi).Value * (EntityStatus.GetStat(StatType.Luck).Value / DeltaS));
                 break;
             case "J":
-                spriteRenderer.color -= new Color(0.1f, 0.1f, 0.1f, 0f);
-                spriteRenderer.color += new Color(0.1f, 0.1f, 0.1f, 0f);
+                color -= new Color(0.1f, 0.1f, 0.1f, 0f);
+                color += new Color(0.1f, 0.1f, 0.1f, 0f);
                 animator.SetInteger("AttackType", 4);
                 break;
         }
+        StartCoroutine(ChangeColorGradually(color, 0.01f));
 
         Debug.Log(damage);
         MakeDamage(damage);
@@ -209,24 +213,38 @@ public class PlayerController : Player
         switch (CurColor)
         {
             case Colors.WHITE:
-                spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+                StartCoroutine(ChangeColorGradually(new Color(1f, 1f, 1f, 1f),0.1f));
                 break;
             case Colors.RED:
-                spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+                StartCoroutine(ChangeColorGradually(new Color(1f,0f,0f,1f),0.1f));
                 break;
             case Colors.BLUE:
-                spriteRenderer.color = new Color(0f, 0f, 1f, 1f);
+                StartCoroutine(ChangeColorGradually(new Color(0f, 0f, 1f, 1f),.1f));
                 break;
             case Colors.YELLOW:
-                spriteRenderer.color = new Color(1f, 1f, 0f, 1f);
+                StartCoroutine(ChangeColorGradually(new Color(1f, 1f, 0f, 1f), .1f));
                 break;
             case Colors.BLACK:
-                spriteRenderer.color = new Color(0f, 0f, 0f, 1f);
+                StartCoroutine(ChangeColorGradually(new Color(0f, 0f, 0f, 1f), .1f));
                 break;
         }
         _attackCooldown = _attackSpeedDump;
         spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
+    IEnumerator ChangeColorGradually(Color targetColor, float duration)
+    {
+        Color initialColor = spriteRenderer.color;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            spriteRenderer.color = Color.Lerp(initialColor, targetColor, t);
+            yield return null;
+        }
+    }
+
     private void Land()
     {
         jumpCount = 0;
@@ -352,7 +370,6 @@ public class PlayerController : Player
     }
     private void Dash()
     {
-
         cooldownDash = true;
         Invoke(nameof(StopDash), dashCooldown);
         _rb.AddForce(new Vector2(_rb.velocity.x * dashSpeed, _rb.velocity.y));

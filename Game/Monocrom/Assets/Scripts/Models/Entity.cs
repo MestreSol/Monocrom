@@ -46,14 +46,7 @@ public class Entity : MonoBehaviour
     public float life = 0;
     public float maxLife;
     
-    public int forca = 0;
-    public int destresa = 0;
-    public int sorte = 0;
-    public int persepcao = 0;
-    public int constituicao = 0;
-    public int inteligencia = 0;
-    public int carisma = 0;
-    public int energia = 0;
+    public EntityStatus EntityStatus;
     public int jumpCount = 0;
 
     [Header("Player Status")]
