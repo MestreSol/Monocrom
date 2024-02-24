@@ -5776,6 +5776,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1671629975}
   wallCheckDistance: 1
   speed: 0
+  dirSpeed: 0
   flySpeed: 0
   jumpForce: 5
   wallJumpingDuration: 0.1
@@ -5790,6 +5791,7 @@ MonoBehaviour:
   isFacingRight: 1
   isWallJumping: 0
   isJumping: 0
+  rigidbody: {fileID: 1671629976}
   CurColor: 3
   head: 0
   hair: 0
@@ -5798,24 +5800,30 @@ MonoBehaviour:
   Accessory: 0
   Preset: 0
   Mana: 0
-  _jumpCountMax: 2
-  _wallJumpingPower: {x: 8, y: 16}
-  _rb: {fileID: 1671629976}
-  _groundCheck: {fileID: 353583247}
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _wallCheck: {fileID: 475194225}
-  _wallLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  _attackCheck: {fileID: 601720124}
-  _attackCooldownTime: 0.01
-  _interactivePoint: {fileID: 1468598866}
-  IsDashing: 0
-  cooldownDash: 0
+  maxComboSequence: 10
+  maxJumpSequence: 2
+  wallSlidingSpeed: 0.75
+  wallJumpForce: {x: 8, y: 16}
+  wallJumpingCooldown: 0.5
+  attackCooldown: 0.1
   dashCooldown: 0.5
   dashSpeed: 1000
+  climbSpeed: 3
+  comboCooldown: 1
+  message: {fileID: 529916667}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  wallCheck: {fileID: 475194226}
+  groundCheck: {fileID: 353583249}
+  attackCheck: {fileID: 601720124}
+  ledgeClimbXOffset1: 0
+  ledgeClimbYOffset1: 0
+  ledgeClimbXOffset2: 0
+  ledgeClimbYOffset2: 0
 --- !u!1 &1716659467
 GameObject:
   m_ObjectHideFlags: 0

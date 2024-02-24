@@ -31,27 +31,24 @@ public class CameraFollow : MonoBehaviour
         smoothedPosition.y = Mathf.Clamp(smoothedPosition.y, minLimits.y, maxLimits.y);
 
         // Verificar se o alvo está parado
-        if (target.position == lastTargetPosition)
+        bool isTargetPositionSame = target.position == lastTargetPosition;
+        targetIdle = isTargetPositionSame && idleTimer >= idleTimeThreshold;
+
+        if (targetIdle)
         {
             idleTimer += Time.deltaTime;
-
-            // Verificar se o tempo de inatividade atingiu o limite
-            if (idleTimer >= idleTimeThreshold)
-            {
-                // Calcular a direção em que o alvo está virado
-                Vector3 targetDirection = NewOffset;
-                // Mover a câmera na direção do alvo
-                smoothedPosition += targetDirection * idleMoveDistance;
-                targetIdle = true;
-            }
+            // Calcular a direção em que o alvo está virado
+            Vector3 targetDirection = NewOffset;
+            // Mover a câmera na direção do alvo
+            smoothedPosition += targetDirection * idleMoveDistance;
         }
         else
         {
-            idleTimer = 0f;
-            targetIdle = false;
+            idleTimer = isTargetPositionSame ? idleTimer + Time.deltaTime : 0f;
         }
 
         transform.position = smoothedPosition;
         lastTargetPosition = target.position;
     }
+
 }
