@@ -34,10 +34,12 @@ public class PlayerController : Player
     private bool isDashing;
     private bool cooldownDash;
     private bool ledgeDetected;
+    private bool isClimb;
     private float attackSpeedDirt;
     private float walljumpingDirection;
     private float wallJumpingCounter;
     private float horizontalForce;
+    private float verticalForce;
     private float comboTimer;
     private float attackTimer = 0f;
     private List<string> comboSequence = new List<string>();
@@ -105,17 +107,13 @@ public class PlayerController : Player
             dirSpeed = speed;
             speed /= 2;
         }
-        else if (Input.GetButtonUp("IsWallking"))
+        else if (!Input.GetButtonUp("IsWallking"))
         {
             speed = dirSpeed;
         }
-        if (horizontalForce > 0)
+        if (horizontalForce != 0)
         {
-            MoveRight(speed);
-        }
-        else if (horizontalForce < 0f)
-        {
-            MoveLeft(speed);
+            Move(horizontalForce);
         }
         else
         {
@@ -224,7 +222,7 @@ public class PlayerController : Player
                 rigidbody.velocity = new Vector2(dashSpeed * (spriteRender.flipX ? -1 : 1), rigidbody.velocity.y);
             }
 
-            yield return null; // espera até o próximo frame
+            yield return null; // espera atï¿½ o prï¿½ximo frame
         }
 
         cooldownDash = true;
@@ -251,6 +249,30 @@ public class PlayerController : Player
             comboSequence.Clear();
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("ClimbBackWall"))
+        {
+            isClimbing = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ClimbBackWall"))
+        {
+            isClimbing = false;
+        }
+    }
+    public LayerMask whatIsClimbled;
+    private void ClimbBackWall()
+    {
+        if (isClimb)
+        {
+            rigidbody.velocity = new Vector2(horizontalForce * climbSpeed, verticalForce * climbSpeed);
+            rigidbody.gravityScale = 0;
+        }
+    }
     private void Update()
     {
         HanddlerMoviment();
@@ -261,6 +283,26 @@ public class PlayerController : Player
         HanddlerDash();
         CheckLedgeClimb();
         HanddlerCombo();
-    }
 
+        RaycastHit2D hitInfos = Physics2D.Raycast(transform.position, Vector2.up, 1f, whatIsClimbled);
+
+        if(hitInfos.collider != null)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                isClimb = true;
+            }
+        }
+        else
+        {
+            isClimb = false;
+        }
+    }
+    private void OnGUI()
+    {
+            string showData = "IsClimbing: "+isClimbing+
+                                "IsCanClimbling" + canClimbLedge;
+            GUI.Label(new Rect(10, 10, 100, 20), showData);
+        
+    }
 }

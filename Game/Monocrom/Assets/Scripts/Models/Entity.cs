@@ -65,75 +65,62 @@ public class Entity : MonoBehaviour
             Die();
         }
     }
-    private void Die(){
+    private void Die()
+    {
         Destroy(gameObject);
     }
-    public void MoveLeft(float horizontalForce)
+
+    public void Move(float horizontalForce)
     {
-        if (isFacingRight)
-        {
-            Flip();
-        }
-        rigidbody.velocity = new Vector2(-horizontalForce, rigidbody.velocity.y);
-    }
-    public void MoveRight(float horizontalForce)
-    {
-        if (!isFacingRight)
+        if ((horizontalForce > 0 && !isFacingRight) || (horizontalForce < 0 && isFacingRight))
         {
             Flip();
         }
         rigidbody.velocity = new Vector2(horizontalForce, rigidbody.velocity.y);
     }
+
     public void Jump()
     {
         if (jumpCount < 2)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
-            rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
             jumpCount++;
         }
     }
     public void WallJump()
     {
-        if (isWallSliding)
-        {
-            isWallJumping = true;
-            isWallSliding = false;
-            jumpCount = 0;
-            StartCoroutine(DisableMovement(0.1f));
-            if (isFacingRight)
-            {
-                rigidbody.AddForce(new Vector2(-1, 1) * jumpForce, ForceMode2D.Impulse);
-            }
-            else
-            {
-                rigidbody.AddForce(new Vector2(1, 1) * jumpForce, ForceMode2D.Impulse);
-            }
-        }
+        if (!isWallSliding) return;
+
+        isWallJumping = true;
+        isWallSliding = false;
+        jumpCount = 0;
+        StartCoroutine(DisableMovement(wallJumpingDuration));
+        Vector2 forceDirection = isFacingRight ? new Vector2(-1, 1) : new Vector2(1, 1);
+        rigidbody.AddForce(forceDirection * jumpForce, ForceMode2D.Impulse);
     }
+
     public void Flip()
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
+
     private IEnumerator DisableMovement(float duration)
     {
-        float time = 0;
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(duration);
         isWallJumping = false;
     }
+
     public bool isTouchingWall()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, wallCheckDistance);
         return hit.collider != null;
     }
+
     public bool isGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, wallCheckDistance);
         return hit.collider != null;
     }
+
 }

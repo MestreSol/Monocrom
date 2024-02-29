@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
     public float idleMoveDistance = 1f; // Distância de movimento durante a inatividade
     private float idleTimer = 0f;
     private Vector3 lastTargetPosition;
-    public Vector3 NewOffset = new Vector3(0, 0, -10);
+    public Vector3 NewOffset = new(0, 0, -10);
     public float CameraSize;
     public bool targetIdle;
     void Start()
@@ -32,23 +32,28 @@ public class CameraFollow : MonoBehaviour
 
         // Verificar se o alvo está parado
         bool isTargetPositionSame = target.position == lastTargetPosition;
-        targetIdle = isTargetPositionSame && idleTimer >= idleTimeThreshold;
 
-        if (targetIdle)
+        if (isTargetPositionSame)
         {
             idleTimer += Time.deltaTime;
-            // Calcular a direção em que o alvo está virado
-            Vector3 targetDirection = NewOffset;
-            // Mover a câmera na direção do alvo
-            smoothedPosition += targetDirection * idleMoveDistance;
+            if (idleTimer >= idleTimeThreshold)
+            {
+                targetIdle = true;
+                // Calcular a direção em que o alvo está virado
+                Vector3 targetDirection = NewOffset;
+                // Mover a câmera na direção do alvo
+                smoothedPosition += targetDirection * idleMoveDistance;
+            }
         }
         else
         {
-            idleTimer = isTargetPositionSame ? idleTimer + Time.deltaTime : 0f;
+            idleTimer = 0f;
+            targetIdle = false;
         }
 
         transform.position = smoothedPosition;
         lastTargetPosition = target.position;
     }
+
 
 }
