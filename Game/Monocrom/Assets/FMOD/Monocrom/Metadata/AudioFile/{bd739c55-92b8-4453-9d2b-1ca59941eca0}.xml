@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{bd739c55-92b8-4453-9d2b-1ca59941eca0}">
+		<property name="assetPath">
+			<value>Placeholder/Franz Gordon   A Heart Made of Yar.ogg</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>203.08172335600906</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{67ce0a17-8905-433e-b725-36c1f1c4412e}</destination>
+		</relationship>
+	</object>
+</objects>

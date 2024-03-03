@@ -1655,9 +1655,10 @@ GameObject:
   m_Component:
   - component: {fileID: 345834355}
   - component: {fileID: 345834354}
-  - component: {fileID: 345834353}
   - component: {fileID: 345834356}
   - component: {fileID: 345834357}
+  - component: {fileID: 345834358}
+  - component: {fileID: 345834359}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1665,14 +1666,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &345834353
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345834352}
-  m_Enabled: 1
 --- !u!20 &345834354
 Camera:
   m_ObjectHideFlags: 0
@@ -1769,6 +1762,50 @@ MonoBehaviour:
   targetSize: 6
   resizeSpeed: 2
   defaultSize: 5
+--- !u!114 &345834358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345834352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+--- !u!114 &345834359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345834352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1561044046
+      Data2: 1162161325
+      Data3: 86145203
+      Data4: -974199308
+    Path: event:/Debug/Teste Geral
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &353583247
 GameObject:
   m_ObjectHideFlags: 0
@@ -6239,6 +6276,9 @@ MonoBehaviour:
   ledgeClimbYOffset1: 0
   ledgeClimbXOffset2: 0
   ledgeClimbYOffset2: 0
+  whatIsClimbled:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1716659467
 GameObject:
   m_ObjectHideFlags: 0

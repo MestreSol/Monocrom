@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{af66405f-4ecc-4831-9b16-177de3a2f0c8}">
+		<property name="assetPath">
+			<value>Forest/amb_forest_thunderstorm_02.ogg</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>15.391999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{67ce0a17-8905-433e-b725-36c1f1c4412e}</destination>
+		</relationship>
+	</object>
+</objects>
