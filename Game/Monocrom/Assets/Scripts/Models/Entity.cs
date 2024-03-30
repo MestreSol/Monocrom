@@ -43,7 +43,8 @@ public class Entity : MonoBehaviour
 
     public float armor;
     public List<Idiomas> idiomas;
-
+    public LayerMask groundLayer;
+    public LayerMask wallLayer;
     [Header("Player Attributes")]
     public float life = 0;
     public float maxLife;
@@ -54,7 +55,7 @@ public class Entity : MonoBehaviour
     [Header("Player Status")]
     public bool inGround = false;
     public bool isWallSliding = false;
-    public bool isFacingRight = true;
+    public bool isFacingRight = false;
     public bool isWallJumping = false;
     public bool isJumping = false;
     public Rigidbody2D rigidbody;
@@ -85,6 +86,7 @@ public class Entity : MonoBehaviour
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
             jumpCount++;
+            animator.SetTrigger("Jump");
         }
     }
     public void WallJump()
@@ -97,6 +99,8 @@ public class Entity : MonoBehaviour
         StartCoroutine(DisableMovement(wallJumpingDuration));
         Vector2 forceDirection = isFacingRight ? new Vector2(-1, 1) : new Vector2(1, 1);
         rigidbody.AddForce(forceDirection * jumpForce, ForceMode2D.Impulse);
+        animator.SetBool("IsWallSliding", false);
+        animator.SetTrigger("Jump");
     }
 
     public void Flip()
@@ -113,14 +117,18 @@ public class Entity : MonoBehaviour
 
     public bool isTouchingWall()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, wallCheckDistance);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, wallCheckDistance, wallLayer);
         return hit.collider != null;
     }
 
+    
+
     public bool isGrounded()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, wallCheckDistance);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, wallCheckDistance, groundLayer);
+        animator.SetBool("IsGrounded", hit.collider != null);
         return hit.collider != null;
     }
+
 
 }

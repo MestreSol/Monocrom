@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 25625045}
   - component: {fileID: 25625047}
   - component: {fileID: 25625046}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 57613874}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1564,7 +1564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 326418076}
   - component: {fileID: 326418077}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSize: 6
   resizeSpeed: 2
-  defaultSize: 5
+  defaultSize: 3
 --- !u!114 &345834358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1830,7 +1830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353583247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07, y: -0.984, z: 0}
+  m_LocalPosition: {x: -0.07, y: -0.352, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1882,7 +1882,7 @@ GameObject:
   - component: {fileID: 433884404}
   - component: {fileID: 433884403}
   - component: {fileID: 433884406}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2085,7 +2085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: 0, z: 0}
+  m_LocalPosition: {x: 0.158, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2101,7 +2101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 481031456}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2140,7 +2140,7 @@ GameObject:
   - component: {fileID: 529916666}
   - component: {fileID: 529916668}
   - component: {fileID: 529916667}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2273,7 +2273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 538651446}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2325,7 +2325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 601720124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: 0, z: 0}
+  m_LocalPosition: {x: 0.152, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2528,7 +2528,7 @@ GameObject:
   - component: {fileID: 683538059}
   - component: {fileID: 683538061}
   - component: {fileID: 683538060}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3090,7 +3090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 746783799}
   - component: {fileID: 746783800}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: mana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3297,7 +3297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 814192593}
   - component: {fileID: 814192594}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: MessageBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3383,7 +3383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 833570754}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3424,7 +3424,7 @@ GameObject:
   - component: {fileID: 856461867}
   - component: {fileID: 856461866}
   - component: {fileID: 856461865}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: EntityName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3734,7 +3734,7 @@ GameObject:
   - component: {fileID: 927282244}
   - component: {fileID: 927282246}
   - component: {fileID: 927282245}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3810,7 +3810,7 @@ GameObject:
   - component: {fileID: 940169801}
   - component: {fileID: 940169803}
   - component: {fileID: 940169802}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3885,7 +3885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942518982}
   - component: {fileID: 942518981}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: namebox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3972,7 +3972,7 @@ GameObject:
   - component: {fileID: 989849242}
   - component: {fileID: 989849245}
   - component: {fileID: 989849244}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: EntityDialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4957,7 +4957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325327134}
   - component: {fileID: 1325327135}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Life
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5133,7 +5133,7 @@ GameObject:
   - component: {fileID: 1428216555}
   - component: {fileID: 1428216557}
   - component: {fileID: 1428216556}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5209,7 +5209,7 @@ GameObject:
   - component: {fileID: 1468598865}
   - component: {fileID: 1468598867}
   - component: {fileID: 1468598866}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: InteractiveMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5342,7 +5342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1473342590}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5482,7 +5482,7 @@ GameObject:
   - component: {fileID: 1479437073}
   - component: {fileID: 1479437075}
   - component: {fileID: 1479437074}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6132,18 +6132,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.021775603, y: -0.11080718}
+  m_Offset: {x: 0.0045294464, y: -0.036275983}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38433003, y: 1.808682}
+  m_Size: {x: 0.121279776, y: 0.60741925}
   m_EdgeRadius: 0
 --- !u!212 &1671629975
 SpriteRenderer:
@@ -6186,7 +6186,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 621534445, guid: d7a0b21b517e3c64c89dd08e4ec3cc7b, type: 3}
+  m_Sprite: {fileID: -1847685937, guid: 0a0abf8599c361b4488b30e774e8e114, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6232,8 +6232,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1671629973}
   spriteRenderer: {fileID: 1671629975}
-  wallCheckDistance: 1
-  speed: 0
+  wallCheckDistance: 0.4
+  speed: 5
   dirSpeed: 0
   flySpeed: 0
   jumpForce: 5
@@ -6241,6 +6241,12 @@ MonoBehaviour:
   canFlying: 0
   armor: 0
   idiomas: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
   life: 10
   maxLife: 10
   jumpCount: 0
@@ -6253,7 +6259,7 @@ MonoBehaviour:
   CurColor: 3
   Mana: 0
   maxComboSequence: 10
-  maxJumpSequence: 2
+  maxJumpSequence: 1
   wallSlidingSpeed: 0.75
   wallJumpForce: {x: 8, y: 16}
   wallJumpingCooldown: 0.5
@@ -6263,22 +6269,16 @@ MonoBehaviour:
   climbSpeed: 3
   comboCooldown: 1
   message: {fileID: 529916667}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  wallCheck: {fileID: 475194226}
   groundCheck: {fileID: 353583249}
   attackCheck: {fileID: 601720124}
+  wallCheck: {fileID: 475194226}
   ledgeClimbXOffset1: 0
   ledgeClimbYOffset1: 0
   ledgeClimbXOffset2: 0
   ledgeClimbYOffset2: 0
   whatIsClimbled:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!1 &1716659467
 GameObject:
   m_ObjectHideFlags: 0
@@ -6401,7 +6401,7 @@ GameObject:
   - component: {fileID: 1804394335}
   - component: {fileID: 1804394337}
   - component: {fileID: 1804394336}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6477,7 +6477,7 @@ GameObject:
   - component: {fileID: 1811672236}
   - component: {fileID: 1811672238}
   - component: {fileID: 1811672237}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6553,7 +6553,7 @@ GameObject:
   - component: {fileID: 1894595795}
   - component: {fileID: 1894595797}
   - component: {fileID: 1894595796}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6862,7 +6862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2107009554}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6901,7 +6901,7 @@ GameObject:
   - component: {fileID: 2141678791}
   - component: {fileID: 2141678793}
   - component: {fileID: 2141678792}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

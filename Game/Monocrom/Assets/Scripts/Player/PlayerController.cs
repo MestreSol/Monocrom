@@ -17,11 +17,9 @@ public class PlayerController : Player
     [SerializeField] private float climbSpeed = 3f;
     [SerializeField] private float comboCooldown = 1f;
     [SerializeField] private TMP_Text message;
-    [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private GameObject attackCheck;
+    [SerializeField] private Transform wallCheck;
     [SerializeField, Range(0f, 10f)] private float ledgeClimbXOffset1 = 0.2f;
     [SerializeField, Range(0f, 10f)] private float ledgeClimbYOffset1 = 0.2f;
     [SerializeField, Range(0f, 10f)] private float ledgeClimbXOffset2 = 0.2f;
@@ -35,6 +33,7 @@ public class PlayerController : Player
     private bool cooldownDash;
     private bool ledgeDetected;
     private bool isClimb;
+    private bool isWalking;
     private float attackSpeedDirt;
     private float walljumpingDirection;
     private float wallJumpingCounter;
@@ -81,7 +80,7 @@ public class PlayerController : Player
             rigidbody.MovePosition(newPos);
             yield return null;
         }
-
+        animator.SetTrigger("Climb");
         isClimbing = false;
     }
 
@@ -96,24 +95,40 @@ public class PlayerController : Player
     }
     private void HanddlerMoviment()
     {
-
         if (isDashing)
         {
             return;
         }
-        horizontalForce = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("IsWallking"))
+        horizontalForce = Input.GetAxisRaw("Horizontal") * speed;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             dirSpeed = speed;
-            speed /= 2;
+            speed = speed / 2;
+            isWalking = true;
+            animator.SetBool("IsRun", false);
+            animator.SetBool("IsWalk", true);
         }
-        else if (!Input.GetButtonUp("IsWallking"))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             speed = dirSpeed;
+            isWalking = false;
+            animator.SetBool("IsRun", true);
+            animator.SetBool("IsWalk", false);
         }
         if (horizontalForce != 0)
         {
             Move(horizontalForce);
+            if (isWalking)
+            {
+                animator.SetBool("IsRun", false);
+                animator.SetBool("IsWalk", true);
+            }
+            else
+            {
+                animator.SetBool("IsRun", true);
+                animator.SetBool("IsWalk", false);
+            }
         }
         else
         {
@@ -224,7 +239,7 @@ public class PlayerController : Player
 
             yield return null; // espera at� o pr�ximo frame
         }
-
+        animator.SetTrigger("Dash");
         cooldownDash = true;
         yield return new WaitForSeconds(dashCooldown);
         cooldownDash = false;
@@ -252,7 +267,7 @@ public class PlayerController : Player
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("ClimbBackWall"))
+        if (collision.CompareTag("ClimbBackWall"))
         {
             isClimbing = true;
         }
@@ -270,7 +285,11 @@ public class PlayerController : Player
         if (isClimb)
         {
             rigidbody.velocity = new Vector2(horizontalForce * climbSpeed, verticalForce * climbSpeed);
-            rigidbody.gravityScale = 0;
+            //rigidbody.gravityScale = 0;
+        }
+        else
+        {
+            //rigidbody.gravityScale = 1;
         }
     }
     private void Update()
@@ -286,7 +305,7 @@ public class PlayerController : Player
 
         RaycastHit2D hitInfos = Physics2D.Raycast(transform.position, Vector2.up, 1f, whatIsClimbled);
 
-        if(hitInfos.collider != null)
+        if (hitInfos.collider != null)
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -297,12 +316,33 @@ public class PlayerController : Player
         {
             isClimb = false;
         }
+
+        if (Mathf.Round(horizontalForce) == 0)
+        {
+            animator.SetBool("IsIdle", true);
+            animator.SetBool("IsRun", false);
+            animator.SetBool("IsWalk", false);
+        }
+        else
+        {
+            animator.SetBool("IsIdle", false);
+        }
+        if (isGrounded())
+        {
+            jumpCount = 0;
+        }
     }
     private void OnGUI()
     {
-            string showData = "IsClimbing: "+isClimbing+
-                                "IsCanClimbling" + canClimbLedge;
-            GUI.Label(new Rect(10, 10, 100, 20), showData);
-        
+        string showData = "IsClimbing: " + isClimbing +
+                            "IsCanClimbling: " + canClimbLedge +
+                            "IsWallSliding: " + isTouchingWall();
+
+        if (GUILayout.Button(showData))
+        {
+               Debug.Log(showData);
+        }
+        GUI.Label(new Rect(10, 10, 100, 20), showData);
+
     }
 }
