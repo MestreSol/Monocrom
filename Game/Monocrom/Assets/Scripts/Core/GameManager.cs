@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
-    private void Start()
+    public bool CanProced()
     {
-        gameState = GameState.MainMenu;
-    }    
+        return gameState == GameState.InGame;
+    }  
 }

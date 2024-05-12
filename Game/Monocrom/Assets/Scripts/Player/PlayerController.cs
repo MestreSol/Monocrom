@@ -48,66 +48,73 @@ public class PlayerController : Entity
 
     private void Update()
     {
-        if(GameManager.instance.gameState == GameState.InGame)
+        if(GameManager.instance.CanProced()){
+            GroundCheck();
+            ProcessMove();
+            if(Input.GetButtonDown("Jump"))
+            {
+                ProcessJump();
+            }
+            
+        }
+        
+    }
+    public void ProcessMove()
+    {
+        moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        rb.velocity = new Vector2(moveInput.x * horizontalSpeed, rb.velocity.y);
+        if(moveInput.x > 0 && !facingRight)
         {
-            moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
-            if (isGrounded)
+            Flip();
+        }
+        else if(moveInput.x < 0 && facingRight)
+        {
+            Flip();
+        }
+        if(rb.velocity.x != 0)
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+        anim.SetBool("isRunning", isRunning);
+    }
+    public void Flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f);
+    }
+    public void ProcessJump()
+    {
+        if(isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isJumping = true;
+        }
+        if(isJumping && Input.GetButton("Jump"))
+        {
+            if(jumpTimeCounter > 0)
             {
-                canDoubleJump = true;
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                jumpTimeCounter -= Time.deltaTime;
             }
-
-            if (Input.GetButtonDown("Jump") && isGrounded)
-            {
-                isJumping = true;
-                jumpTimeCounter = jumpTime;
-                rb.velocity = Vector2.up * jumpForce;
-            }
-
-            if (Input.GetButton("Jump") && isJumping)
-            {
-                if (jumpTimeCounter > 0)
-                {
-                    rb.velocity = Vector2.up * jumpForce;
-                    jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    isJumping = false;
-                }
-            }
-
-            if (Input.GetButtonUp("Jump"))
+            else
             {
                 isJumping = false;
             }
+        }
+        if(Input.GetButtonUp("Jump"))
+        {
+            isJumping = false;
+        }
 
-            if (Input.GetButtonDown("Jump") && canDoubleJump && !isGrounded)
-            {
-                rb.velocity = Vector2.up * jumpForce;
-                canDoubleJump = false;
-            }
-
-            if (Input.GetButtonDown("Fire1") && !isAttacking)
-            {
-                isAttacking = true;
-                attackRateCounter = attackRate;
-                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPosition.position, attackRange, whatIsEnemies);
-                for (int i = 0; i < enemiesToDamage.Length; i++)
-                {
-                    enemiesToDamage[i].GetComponent<Entity>().TakeDamage(attackDamage);
-                    if (enemiesToDamage[i].transform.position.x > transform.position.x)
-                    {
-                        enemiesToDamage[i].GetComponent<Rigidbody2D>().AddForce(Vector2.right * knockbackForce);
-                    }
-                    else
-                    {
-                        enemiesToDamage[i].GetComponent<Rigidbody2D>().AddForce(Vector2.left * knockbackForce);
-                    }
-                }
-            }
-        }    
+    }
+    public void GroundCheck()
+    {
+        // Verifica se o jogador esta colidindo com o chão
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     }
     
 
