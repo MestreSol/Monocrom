@@ -20,8 +20,16 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+   
     public bool CanProced()
     {
         return gameState == GameState.InGame;
-    }  
+    }
+    public void PrintKeyPressed()
+{
+    if (Input.anyKeyDown)
+    {
+        Debug.Log("Key Pressed: " + Input.inputString);
+    }
+}
 }
