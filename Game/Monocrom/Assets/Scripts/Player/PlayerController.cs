@@ -20,6 +20,7 @@ public class PlayerController : Entity
     public float wallJumpingDuration = 0.4f;
     public Vector2 wallJumpingPower = new Vector2(8f, 16f);
     public Animator anim;
+    public bool isDoubleJumping;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public Transform groundCheck;
     [SerializeField] public LayerMask groundLayer;
@@ -29,17 +30,21 @@ public class PlayerController : Entity
     private void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
+            if (Input.GetButtonDown("Jump") && IsGrounded())
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                isDoubleJumping = true;
+            }
+            else if (Input.GetButtonDown("Jump") && isDoubleJumping)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                isDoubleJumping = false;
+            }
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-        }
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-
+            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            }
         WallSlide();
         WallJump();
 
