@@ -5,22 +5,34 @@ using UnityEngine;
 
 public class PlayerController : Entity
 {
+    [Header("Moviment")]
     public float horizontal;
     public float speed = 8f;
     public float jumpingPower = 16f;
     public bool isFacingRight = true;
+    public bool isDoubleJumping;
 
+    [Header("Wall Jump")]
     public bool isWallSliding;
     public float wallSlidingSpeed = 2f;
-    public bool isCrouch;
     public bool isWallJumping;
     public float wallJumpingDirection;
     public float wallJumpingTime = 0.2f;
     public float wallJumpingCounter;
     public float wallJumpingDuration = 0.4f;
     public Vector2 wallJumpingPower = new Vector2(8f, 16f);
+    [Header("Crouch")]
+    public bool isCrouch;
+
+    [Header("Dash")]
+    public bool isDashing = false;
+    public bool isDashRecharging = false;
+    public float dashDuration = 0.2f;
+    public float dashRechargeTime = 1f;
+    public float dashSpeed = 20f;
+
+    [Header("Components")]
     public Animator anim;
-    public bool isDoubleJumping;
     [SerializeField] public Rigidbody2D rb;
     [SerializeField] public Transform groundCheck;
     [SerializeField] public LayerMask groundLayer;
@@ -29,22 +41,24 @@ public class PlayerController : Entity
 
     private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-            if (Input.GetButtonDown("Jump") && IsGrounded())
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-                isDoubleJumping = true;
-            }
-            else if (Input.GetButtonDown("Jump") && isDoubleJumping)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-                isDoubleJumping = false;
-            }
+        if(GameManager.instance.gameState == GameState.Pause) return;
 
-            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-            }
+        horizontal = Input.GetAxisRaw("Horizontal");
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            isDoubleJumping = true;
+        }
+        else if (Input.GetButtonDown("Jump") && isDoubleJumping)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            isDoubleJumping = false;
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
         WallSlide();
         WallJump();
 
@@ -52,13 +66,56 @@ public class PlayerController : Entity
         {
             Flip();
         }
-        if(Input.GetKeyDown(KeyCode.LeftControl)){
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
             isCrouch = !isCrouch;
+        }
+        if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && !isDashRecharging && IsGrounded())
+        {
+            if (Mathf.Abs(horizontal) > 0)
+            {
+                StartCoroutine(Slider(0.1f, speed));
+            }
+            else
+            {
+                StartCoroutine(Dash(0.1f, dashSpeed));
+            }
         }
         PlayerAnimationUpdate();
     }
-
-    private void PlayerAnimationUpdate(){
+    private IEnumerator Slider(float slideDuration, float slideSpeed)
+    {
+        float startTime = Time.time;
+        anim.SetTrigger("Slider");
+        while (Time.time < startTime + slideDuration)
+        {
+            rb.velocity = new Vector2(slideSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
+            Debug.Log($"Time.time: {Time.time}, startTime: {startTime}, dashDuration: {dashDuration}, isFacingRight: {isFacingRight}");
+            yield return null;
+        }
+        isDashing = false;
+        isDashRecharging = true;
+        yield return new WaitForSeconds(dashRechargeTime);
+        isDashRecharging = false;
+    }
+    private IEnumerator Dash(float dashDuration, float dashSpeed)
+    {
+        float startTime = Time.time;
+        anim.SetTrigger("Dash");
+        while (Time.time < startTime + dashDuration)
+        {
+            isDashing = true;
+            rb.velocity = new Vector2(dashSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
+            Debug.Log($"Time.time: {Time.time}, startTime: {startTime}, dashDuration: {dashDuration}, isFacingRight: {isFacingRight}");
+            yield return null; // espera até o próximo frame
+        }
+        isDashing = false;
+        isDashRecharging = true;
+        yield return new WaitForSeconds(dashRechargeTime);
+        isDashRecharging = false;
+    }
+    private void PlayerAnimationUpdate()
+    {
         // arredonda o valor de horizontal para 1 ou -1
         anim.SetFloat("Speed", Mathf.Abs(horizontal) == 0 ? -1 : 1);
         anim.SetBool("isGrounded", IsGrounded());
@@ -68,12 +125,13 @@ public class PlayerController : Entity
         anim.SetBool("isWalled", IsWalled());
     }
     private void FixedUpdate()
-    {
-        if (!isWallJumping)
-        {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-        }
-    }
+{
+  // Se tiver no walljump ou dando dash retorna e não muda a velocity
+  if(isWallJumping || isDashing)
+    return;
+
+  rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+}
 
     private bool IsGrounded()
     {
@@ -151,15 +209,15 @@ public class PlayerController : Entity
         }
     }
     // Execução apenas de DEBUG
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 200, 20), "isWallSliding: " + isWallSliding);
         GUI.Label(new Rect(10, 30, 200, 20), "isWallJumping: " + isWallJumping);
         GUI.Label(new Rect(10, 50, 200, 20), "IsCrouch: " + isCrouch);
     }
-    
-    #endif
+
+#endif
     private void DrawGizmos()
     {
         Gizmos.color = Color.red;

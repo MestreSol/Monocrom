@@ -32,4 +32,19 @@ public class GameManager : MonoBehaviour
         Debug.Log("Key Pressed: " + Input.inputString);
     }
 }
+public void PauseGame()
+{
+    gameState = GameState.Pause;
+    Time.timeScale = 0;
 }
+public void ResumeGame()
+{
+    gameState = GameState.InGame;
+    Time.timeScale = 1;
+}
+public void GameOver()
+{
+    gameState = GameState.GameOver;
+}
+}
+
