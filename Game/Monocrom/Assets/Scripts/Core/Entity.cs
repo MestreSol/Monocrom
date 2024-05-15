@@ -6,6 +6,8 @@ public class Entity : MonoBehaviour
 {
     public float health;
     public float maxHealth;
+    public float stamina;
+    public float maxStamina;
     public float attackSpeed;
     public float walkSpeed;
     public float runSpeed;

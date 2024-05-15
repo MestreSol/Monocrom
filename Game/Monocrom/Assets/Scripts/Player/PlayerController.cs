@@ -38,7 +38,14 @@ public class PlayerController : Entity
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public Transform wallCheck;
     [SerializeField] public LayerMask wallLayer;
-    
+    private void Start(){
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        health = maxHealth;
+        stamina = maxStamina;
+        PlayerInterface.instance.InitializeHealthBar(maxHealth);
+        PlayerInterface.instance.InitializeStaminaBar(maxStamina);
+    }
     private void Update()
     {
         if(GameManager.instance.gameState == GameState.Pause) return;
@@ -82,11 +89,18 @@ public class PlayerController : Entity
             }
         }
         PlayerAnimationUpdate();
+        UpdateInterface();
     }
+
+    private void UpdateInterface(){
+        PlayerInterface.instance.SetHealthBarValue(health);
+        PlayerInterface.instance.SetStaminaBarValue(stamina);
+    }
+    
     private IEnumerator Slider(float slideDuration, float slideSpeed)
     {
         float startTime = Time.time;
-        anim.SetTrigger("Slider");
+        anim.SetTrigger("Dash");
         while (Time.time < startTime + slideDuration)
         {
             rb.velocity = new Vector2(slideSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
