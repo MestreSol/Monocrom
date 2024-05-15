@@ -38,7 +38,7 @@ public class PlayerController : Entity
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public Transform wallCheck;
     [SerializeField] public LayerMask wallLayer;
-
+    
     private void Update()
     {
         if(GameManager.instance.gameState == GameState.Pause) return;
