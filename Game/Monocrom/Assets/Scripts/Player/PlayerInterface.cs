@@ -4,17 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerInterface : MonoBehaviour
 {
-    public static PlayerInterface instance;
     public Slider sl_HelthBar;
     public Slider sl_StaminaBar;
 
-    public void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
     public void SetHealthBarValue(float value)
     {
         sl_HelthBar.value = value;

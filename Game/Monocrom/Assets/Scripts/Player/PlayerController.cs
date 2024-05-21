@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : Entity
@@ -38,34 +36,51 @@ public class PlayerController : Entity
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public Transform wallCheck;
     [SerializeField] public LayerMask wallLayer;
-    private void Start(){
+
+    PlayerAtributes playerAtributes;
+    PlayerEquipment playerEquipment; 
+    PlayerInterface playerInterface;
+
+    public Inventory inventory;
+    public static PlayerController instance;
+    private void Start()
+    {
+        playerAtributes = GetComponent<PlayerAtributes>();
+        playerEquipment = GetComponent<PlayerEquipment>();
+        playerInterface = GetComponent<PlayerInterface>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         health = maxHealth;
         stamina = maxStamina;
-        PlayerInterface.instance.InitializeHealthBar(maxHealth);
-        PlayerInterface.instance.InitializeStaminaBar(maxStamina);
+        playerInterface.InitializeHealthBar(maxHealth);
+        playerInterface.InitializeStaminaBar(maxStamina);
+
+        instance = this;
     }
     private void Update()
     {
         if(GameManager.instance.gameState == GameState.Pause) return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            isDoubleJumping = true;
-        }
-        else if (Input.GetButtonDown("Jump") && isDoubleJumping)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            isDoubleJumping = false;
+            if (IsGrounded())
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                isDoubleJumping = true;
+            }
+            else if (isDoubleJumping)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+                isDoubleJumping = false;
+            }
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
+
         WallSlide();
         WallJump();
 
@@ -73,10 +88,12 @@ public class PlayerController : Entity
         {
             Flip();
         }
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouch = !isCrouch;
         }
+
         if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && !isDashRecharging && IsGrounded())
         {
             if (Mathf.Abs(horizontal) > 0)
@@ -88,22 +105,27 @@ public class PlayerController : Entity
                 StartCoroutine(Dash(0.1f, dashSpeed));
             }
         }
+
         PlayerAnimationUpdate();
         UpdateInterface();
     }
 
     private void UpdateInterface(){
-        PlayerInterface.instance.SetHealthBarValue(health);
-        PlayerInterface.instance.SetStaminaBarValue(stamina);
+        playerInterface.SetHealthBarValue(health);
+        playerInterface.SetStaminaBarValue(stamina);
     }
-    
+    private void AttackMelle()
+    {
+        anim.SetTrigger("Attack");
+    }
     private IEnumerator Slider(float slideDuration, float slideSpeed)
     {
         float startTime = Time.time;
         anim.SetTrigger("Dash");
+        Vector2 velocity = new Vector2(slideSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
         while (Time.time < startTime + slideDuration)
         {
-            rb.velocity = new Vector2(slideSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
+            rb.velocity = velocity;
             Debug.Log($"Time.time: {Time.time}, startTime: {startTime}, dashDuration: {dashDuration}, isFacingRight: {isFacingRight}");
             yield return null;
         }
@@ -116,21 +138,16 @@ public class PlayerController : Entity
     {
         float startTime = Time.time;
         anim.SetTrigger("Dash");
-        while (Time.time < startTime + dashDuration)
-        {
-            isDashing = true;
-            rb.velocity = new Vector2(dashSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
-            Debug.Log($"Time.time: {Time.time}, startTime: {startTime}, dashDuration: {dashDuration}, isFacingRight: {isFacingRight}");
-            yield return null; // espera até o próximo frame
-        }
+        isDashing = true;
+        rb.velocity = new Vector2(dashSpeed * (isFacingRight ? 1 : -1), rb.velocity.y);
+        yield return new WaitForSeconds(dashDuration);
         isDashing = false;
         isDashRecharging = true;
-        yield return new WaitForSeconds(dashRechargeTime);
+        yield return new WaitForSeconds(dashRechargeTime - dashDuration);
         isDashRecharging = false;
     }
     private void PlayerAnimationUpdate()
     {
-        // arredonda o valor de horizontal para 1 ou -1
         anim.SetFloat("Speed", Mathf.Abs(horizontal) == 0 ? -1 : 1);
         anim.SetBool("isGrounded", IsGrounded());
         anim.SetBool("isWallSliding", isWallSliding);
@@ -139,14 +156,13 @@ public class PlayerController : Entity
         anim.SetBool("isWalled", IsWalled());
     }
     private void FixedUpdate()
-{
-  // Se tiver no walljump ou dando dash retorna e não muda a velocity
-  if(isWallJumping || isDashing)
-    return;
+    {
+        // Se tiver no walljump ou dando dash retorna e não muda a velocity
+        if (isWallJumping || isDashing)
+            return;
 
-  rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-}
-
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    }
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
@@ -159,14 +175,7 @@ public class PlayerController : Entity
 
     private void WallSlide()
     {
-        if (IsWalled() && !IsGrounded() && rb.velocity.y < 0f)
-        {
-            isWallSliding = true;
-        }
-        else
-        {
-            isWallSliding = false;
-        }
+        isWallSliding = IsWalled() && !IsGrounded() && rb.velocity.y < 0f;
 
         if (isWallSliding)
         {
@@ -197,16 +206,12 @@ public class PlayerController : Entity
 
             if (transform.localScale.x != wallJumpingDirection)
             {
-                isFacingRight = !isFacingRight;
-                Vector3 localScale = transform.localScale;
-                localScale.x *= -1f;
-                transform.localScale = localScale;
+                Flip();
             }
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
     }
-
     private void StopWallJumping()
     {
         isWallJumping = false;
@@ -214,14 +219,61 @@ public class PlayerController : Entity
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        if ((isFacingRight && horizontal < 0f) || (!isFacingRight && horizontal > 0f))
         {
             isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
     }
+    public void ModifyAttribute(string attribute, float value, bool isAddition)
+    {
+        switch (attribute)
+        {
+            case "health":
+                health = isAddition ? health + value : health - value;
+                break;
+            case "stamina":
+                stamina = isAddition ? stamina + value : stamina - value;
+                break;
+            case "attackSpeed":
+                playerAtributes.attackSpeed = isAddition ? playerAtributes.attackSpeed + value : playerAtributes.attackSpeed - value;
+                break;
+            case "walkSpeed":
+                playerAtributes.walkSpeed = isAddition ? playerAtributes.walkSpeed + value : playerAtributes.walkSpeed - value;
+                break;
+            case "runSpeed":
+                playerAtributes.runSpeed = isAddition ? playerAtributes.runSpeed + value : playerAtributes.runSpeed - value;
+                break;
+            case "inteligence":
+                playerAtributes.inteligence = isAddition ? playerAtributes.inteligence + value : playerAtributes.inteligence - value;
+                break;
+            case "strength":
+                playerAtributes.strength = isAddition ? playerAtributes.strength + value : playerAtributes.strength - value;
+                break;
+            case "dexterity":
+                playerAtributes.dexterity = isAddition ? playerAtributes.dexterity + value : playerAtributes.dexterity - value;
+                break;
+            case "charisma":
+                playerAtributes.charisma = isAddition ? playerAtributes.charisma + value : playerAtributes.charisma - value;
+                break;
+            case "luck":
+                playerAtributes.luck = isAddition ? playerAtributes.luck + value : playerAtributes.luck - value;
+                break;
+        }
+    }
+    public PlayerAtributes GetAtributs(){
+        Debug.Log($"Health: {health}");
+        Debug.Log($"Stamina: {stamina}");
+        Debug.Log($"AttackSpeed: {playerAtributes.attackSpeed}");
+        Debug.Log($"WalkSpeed: {playerAtributes.walkSpeed}");
+        Debug.Log($"RunSpeed: {playerAtributes.runSpeed}");
+        Debug.Log($"Inteligence: {playerAtributes.inteligence}");
+        Debug.Log($"Strength: {playerAtributes.strength}");
+        Debug.Log($"Dexterity: {playerAtributes.dexterity}");
+        Debug.Log($"Charisma: {playerAtributes.charisma}");
+        Debug.Log($"Luck: {playerAtributes.luck}");
+        return playerAtributes;
+    }   
     // Execução apenas de DEBUG
 #if UNITY_EDITOR
     private void OnGUI()
