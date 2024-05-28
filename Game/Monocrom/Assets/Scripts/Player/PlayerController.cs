@@ -5,10 +5,12 @@ public class PlayerController : Entity
 {
     [Header("Moviment")]
     public float horizontal;
+
+    [Range(1,100)]
     public float speed = 8f;
     public float jumpingPower = 16f;
     public bool isFacingRight = true;
-    public bool isDoubleJumping;
+    private bool isDoubleJumping;
 
     [Header("Wall Jump")]
     public bool isWallSliding;
@@ -36,10 +38,28 @@ public class PlayerController : Entity
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public Transform wallCheck;
     [SerializeField] public LayerMask wallLayer;
-
+    public MinimapController minimapController;
+    public bool IsWalled
+    {
+        get
+        {
+            return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
+        }
+        private set
+        {
+        }
+    }
     PlayerAtributes playerAtributes;
     PlayerEquipment playerEquipment; 
     PlayerInterface playerInterface;
+
+    public bool isGround {
+        get
+        {
+            return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        }
+        private set { }
+    }
 
     public Inventory inventory;
     public static PlayerController instance;
@@ -56,23 +76,22 @@ public class PlayerController : Entity
         playerInterface.InitializeStaminaBar(maxStamina);
 
         instance = this;
+
     }
     private void Update()
     {
-        if(GameManager.instance.gameState == GameState.Pause) return;
+        if (GameManager.instance.gameState == GameState.Pause) return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
+        Debug.Log("Horizontal: " + horizontal);
+        bool isGrounded = isGround;
+
         if (Input.GetButtonDown("Jump"))
         {
-            if (IsGrounded())
+            if (isGrounded || isDoubleJumping)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-                isDoubleJumping = true;
-            }
-            else if (isDoubleJumping)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-                isDoubleJumping = false;
+                isDoubleJumping = !isDoubleJumping;
             }
         }
 
@@ -94,21 +113,17 @@ public class PlayerController : Entity
             isCrouch = !isCrouch;
         }
 
-        if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && !isDashRecharging && IsGrounded())
+        if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && !isDashRecharging && isGrounded && Mathf.Abs(horizontal) > 0)
         {
-            if (Mathf.Abs(horizontal) > 0)
-            {
-                StartCoroutine(Slider(0.1f, speed));
-            }
-            else
-            {
-                StartCoroutine(Dash(0.1f, dashSpeed));
-            }
+            StartCoroutine(Slider(0.1f, speed));
         }
 
         PlayerAnimationUpdate();
         UpdateInterface();
+
+       
     }
+
 
     private void UpdateInterface(){
         playerInterface.SetHealthBarValue(health);
@@ -149,11 +164,11 @@ public class PlayerController : Entity
     private void PlayerAnimationUpdate()
     {
         anim.SetFloat("Speed", Mathf.Abs(horizontal) == 0 ? -1 : 1);
-        anim.SetBool("isGrounded", IsGrounded());
+        anim.SetBool("isGrounded", isGround);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isWallJumping", isWallJumping);
         anim.SetBool("isCrouch", isCrouch);
-        anim.SetBool("isWalled", IsWalled());
+        anim.SetBool("isWalled", IsWalled);
     }
     private void FixedUpdate()
     {
@@ -163,19 +178,10 @@ public class PlayerController : Entity
 
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
-
-    private bool IsWalled()
-    {
-        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
-    }
 
     private void WallSlide()
     {
-        isWallSliding = IsWalled() && !IsGrounded() && rb.velocity.y < 0f;
+        isWallSliding = IsWalled && !isGround && rb.velocity.y < 0f;
 
         if (isWallSliding)
         {
